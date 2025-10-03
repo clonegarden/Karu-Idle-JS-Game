@@ -17,14 +17,40 @@
 		<div class="container-fluid">
 
 			<!-- Header -->
-			<div class="row" id="header">
+			<div class="row" id="header" style="align-items: center;">
 				<div class="col-2" id="headericon">
 					<img id="headerfavicon" class="img-fluid rounded-circle img-thumbnail" src="assets/favicon.png" alt="Game Icon">
 				</div>
 				<div class="col">
 					<div id="headertext">Karu's Idle JS Game</div>
 				</div>
+				<div class="col-3 text-right" style="min-width:180px;">
+					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Gerenciar Usuário</button>
+					<button id="btnLogoff" class="btn btn-danger btn-sm">Logoff</button>
+				</div>
 			</div>
+				<!-- MODAL GERENCIAMENTO DE USUÁRIO -->
+				<div class="modal fade" id="UserManageModal" tabindex="-1" role="dialog" aria-labelledby="UserManageModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="UserManageModalLabel">Gerenciamento do Usuário</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p><b>Usuário:</b> <span id="userManageUsername">(carregando...)</span></p>
+								<hr>
+								<button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidade de alteração de senha em breve!')">Alterar senha</button>
+								<!-- Adicione mais opções de gerenciamento aqui -->
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			
 			<!-- Navbar-esque separator -->
 			<div class="row">
@@ -538,5 +564,25 @@
 		<script src="js/Objects/Player.js"></script>
 		<script src="js/Functions/ShowDateTime.js"></script>
 		<script src="SimpleIdleJSGame.js"></script>
+		<script>
+		// Logoff
+		document.getElementById('btnLogoff').onclick = function() {
+			localStorage.removeItem('token');
+			window.location.href = 'index.html';
+		};
+		// Preencher nome do usuário no modal
+		document.getElementById('btnUserManage').onclick = function() {
+			let token = localStorage.getItem('token');
+			let username = '(desconhecido)';
+			if (token) {
+				try {
+					// Decodifica JWT (payload base64)
+					let payload = JSON.parse(atob(token.split('.')[1]));
+					username = payload.username || username;
+				} catch(e) {}
+			}
+			document.getElementById('userManageUsername').textContent = username;
+		};
+		</script>
 	</body>
 </html>
