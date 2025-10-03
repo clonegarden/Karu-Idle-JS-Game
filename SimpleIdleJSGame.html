@@ -565,6 +565,47 @@
 		<script src="js/Functions/ShowDateTime.js"></script>
 		<script src="SimpleIdleJSGame.js"></script>
 		<script>
+		// Carregar personagem do usuário logado
+		async function loadCharacterFromBackend() {
+			const token = localStorage.getItem('token');
+			if (!token) {
+				window.location.href = 'index.html';
+				return;
+			}
+			try {
+				const res = await fetch('/api/character', {
+					headers: { 'Authorization': 'Bearer ' + token }
+				});
+				if (!res.ok) throw new Error('Usuário não autenticado ou personagem não encontrado');
+				const data = await res.json();
+				const c = data.character;
+				// Debug log
+				console.log('Personagem carregado:', c);
+				// Preencher nome e status do personagem
+				const namediv = document.getElementById('namediv');
+				const statnames = document.getElementById('statnames');
+				const statvalues = document.getElementById('statvalues');
+				if (c && namediv && statnames && statvalues) {
+					namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
+					// Atualizar status principais
+					let statNames = 'Terra<br>Fogo<br>Água<br>Ar<br>';
+					let statValues = `${c.terra}<br>${c.fogo}<br>${c.agua}<br>${c.ar}<br>`;
+					// Adicionar outros status do template original
+					statNames += 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
+					statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
+					statnames.innerHTML = statNames;
+					statvalues.innerHTML = statValues;
+				} else {
+					console.warn('Elementos de status ou nome não encontrados no DOM.');
+				}
+			} catch (e) {
+				console.error('Erro ao carregar personagem:', e);
+				window.location.href = 'index.html';
+			}
+		}
+		window.addEventListener('DOMContentLoaded', loadCharacterFromBackend);
+		</script>
+		<script>
 		// Logoff
 		document.getElementById('btnLogoff').onclick = function() {
 			localStorage.removeItem('token');
