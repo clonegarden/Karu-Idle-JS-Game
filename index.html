@@ -1,11 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta http-equiv="refresh" content="0; url=SimpleIdleJSGame.html">
+    <!-- Redirecionamento automático removido. -->
     <title>Karu Idle JS Game</title>
     <meta charset="UTF-8">
+
 </head>
 <body>
-    <p>Redirecionando para <a href="SimpleIdleJSGame.html">SimpleIdleJSGame.html</a>...</p>
+    <div id="auth-container">
+        <div id="login-section">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="login-username">Usuário:</label>
+                <input type="text" id="login-username" name="username" required><br>
+                <label for="login-password">Senha:</label>
+                <input type="password" id="login-password" name="password" required><br>
+                <button type="submit">Entrar</button>
+            </form>
+            <p id="loginMessage"></p>
+            <p>Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+        </div>
+        <div id="register-section" style="display:none;">
+            <h2>Cadastro</h2>
+            <form id="registerForm">
+                <label for="register-username">Usuário:</label>
+                <input type="text" id="register-username" name="username" required><br>
+                <label for="register-password">Senha:</label>
+                <input type="password" id="register-password" name="password" required><br>
+                <button type="submit">Cadastrar</button>
+            </form>
+            <p id="registerMessage"></p>
+            <p>Já tem conta? <a href="#" id="showLogin">Entrar</a></p>
+        </div>
+    </div>
+    <script>
+    // Alternar entre login e cadastro
+    document.getElementById('showRegister').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('register-section').style.display = '';
+    };
+    document.getElementById('showLogin').onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('register-section').style.display = 'none';
+        document.getElementById('login-section').style.display = '';
+    };
+
+    // Login
+    document.getElementById('loginForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            window.location.href = 'SimpleIdleJSGame.html';
+        } else {
+            document.getElementById('loginMessage').textContent = data.error || 'Erro ao fazer login';
+        }
+    };
+
+    // Cadastro
+    document.getElementById('registerForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            document.getElementById('registerMessage').textContent = 'Cadastro realizado! Faça login.';
+        } else {
+            document.getElementById('registerMessage').textContent = data.error || 'Erro ao cadastrar';
+        }
+    };
+    </script>
 </body>
 </html>
