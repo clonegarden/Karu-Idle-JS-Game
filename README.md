@@ -1,6 +1,7 @@
-# Karu-Idle-JS-game
+# Karu - Indie 16bits
 
-This is a browser game, made using HTML, CSS and JavaScript.
+Karu-Idle-JS-game was a browser game, made using HTML, CSS and JavaScript.
+Here we are testing how to use it as the base structure to implement a full Nodejs, multiplayer cyberpunk Idle Clicker.
 
 ## How to play:
 
@@ -8,6 +9,7 @@ This is a browser game, made using HTML, CSS and JavaScript.
 	2.Open SimpleIdleJSGame.html file in your web browser (So far only Opera has been tested).  
 	3.Have fun! :)
 ---
+
 ## Functionalities:
 
 	*Autoclickers: You can buy these to make the game play itself!
@@ -20,20 +22,24 @@ This is a browser game, made using HTML, CSS and JavaScript.
 	*Avatar Boutique: Spend your hard earned Karu Gems on powerful avatar skills!
 	*Themes: A colorful theme and a night mode for style!
 	*Music: The game has background music, and unlockable songs too!
+	*Login and User Managament
 
 ---
-## Latest Release [v1.0]
+## Latest Release [v0.1]
 	
-	Version 1.0 is the first complete version of the game, it has 5 avatars, 2 themes,
+	Version 1.0 is the first complete version of Kary the game, it has 5 avatars, 2 themes,
 	2 songs and 7 achievements. The game has been published in several social media.
+	Version 0.1 is the first working deployment of the Nodejs version.
 
 ---
 ## What's coming next?
 	
 	-More music is being added into the game!
 	-More avatars and skills are being added!
+	-User/Character control
+	-Stories!
+	-Inventary
+	-A Fixed Hub from where to get to missions.
 	
 ---
-Idle Games can be a bit addicting, it's weird how just watching a number grow makes
-you feel somehow rewarded.  I love idle games myself, so I'm always trying to make one
-whenever I learn a new language.
+
