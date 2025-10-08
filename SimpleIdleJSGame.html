@@ -596,9 +596,9 @@
 					statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
 					statnames.innerHTML = statNames;
 					statvalues.innerHTML = statValues;
-        if (moneycounter && typeof c.gold !== 'undefined') {
-          moneycounter.innerHTML = `$${c.gold}`;
-        }
+				if (moneycounter && typeof data.gold !== 'undefined') {
+					moneycounter.innerHTML = `$${data.gold}`;
+				}
 				} else {
 					console.warn('Elementos de status ou nome não encontrados no DOM.');
 				}
