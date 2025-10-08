@@ -65,7 +65,7 @@
 					<div class="row">
 						<!-- Name -->
 						<div class="col" id="namediv" onclick="player.openNameChangeModal()" style="cursor: pointer">
-							Player: Choose Name
+							<!-- O nome do personagem será preenchido dinamicamente pelo JS -->
 						</div>
 					</div>
 					<!-- Avatar -->
@@ -585,6 +585,7 @@
 				const namediv = document.getElementById('namediv');
 				const statnames = document.getElementById('statnames');
 				const statvalues = document.getElementById('statvalues');
+        const moneycounter = document.getElementById('moneycounter');
 				if (c && namediv && statnames && statvalues) {
 					namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
 					// Atualizar status principais
@@ -595,6 +596,9 @@
 					statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
 					statnames.innerHTML = statNames;
 					statvalues.innerHTML = statValues;
+        if (moneycounter && typeof c.gold !== 'undefined') {
+          moneycounter.innerHTML = `$${c.gold}`;
+        }
 				} else {
 					console.warn('Elementos de status ou nome não encontrados no DOM.');
 				}
