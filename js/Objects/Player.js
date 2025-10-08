@@ -729,10 +729,35 @@ function Player(){
 	/* Set Name */
 	/*----------*/
 	this.setName = function() {
-		this.name = document.getElementById("newnameinput").value;
-		document.getElementById("namediv").innerHTML = "Player: " + this.name;
-		document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>Changed your name to: "+this.name+"&#013;");
-		document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+		var newName = document.getElementById("newnameinput").value;
+		var token = localStorage.getItem('token');
+		if (!token) {
+			Swal.fire('Erro', 'Você não está logado!', 'error');
+			return;
+		}
+		fetch('/api/character-update', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			},
+			body: JSON.stringify({ name: newName })
+		})
+		.then(res => {
+			if (!res.ok) throw new Error('Falha ao atualizar nome');
+			return res.json();
+		})
+		.then(data => {
+			this.name = newName;
+			document.getElementById("namediv").innerHTML = "Player: " + this.name;
+			document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>Changed your name to: "+this.name+"&#013;");
+			document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+			Swal.fire('Sucesso', 'Nome alterado com sucesso!', 'success');
+		})
+		.catch(err => {
+			console.error('Erro ao atualizar nome:', err);
+			Swal.fire('Erro', 'Não foi possível alterar o nome.', 'error');
+		});
 	}
 
 	/*--------------*/
