@@ -1,3 +1,24 @@
+#btnUserManage {
+	background-image: url('assets/buttons/btn_user.png');
+	background-size: 100%;
+	border: 1px solid #aa00aa;
+	color: white;
+	text-shadow: -1px 0px 2px #222222,
+				 0px 1px 2px #222222,
+				 1px 0px 2px #222222,
+				 0px -1px 2px #222222;
+}
+
+#btnLogoff {
+	background-image: url('assets/buttons/btn_logoff.png');
+	background-size: 100%;
+	border: 1px solid #aa0000;
+	color: white;
+	text-shadow: -1px 0px 2px #222222,
+				 0px 1px 2px #222222,
+				 1px 0px 2px #222222,
+				 0px -1px 2px #222222;
+}
 /*-------------------------*/
 /* Simple Idle JS Game CSS */
 /*-------------------------*/

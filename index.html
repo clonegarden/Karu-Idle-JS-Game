@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <!-- Redirecionamento automático removido. -->
 
@@ -105,26 +105,26 @@
         <div id="login-section">
             <h2>Login</h2>
             <form id="loginForm">
-                <label for="login-username">Usuário</label>
+                <label for="login-username">Username</label>
                 <input type="text" id="login-username" name="username" required>
-                <label for="login-password">Senha</label>
+                <label for="login-password">Password</label>
                 <input type="password" id="login-password" name="password" required>
-                <button type="submit">Entrar</button>
+                <button type="submit">Login</button>
             </form>
             <p id="loginMessage"></p>
-            <p>Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+            <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
         </div>
         <div id="register-section" style="display:none;">
-            <h2>Cadastro</h2>
+            <h2>Register</h2>
             <form id="registerForm">
-                <label for="register-username">Usuário</label>
+                <label for="register-username">Username</label>
                 <input type="text" id="register-username" name="username" required>
-                <label for="register-password">Senha</label>
+                <label for="register-password">Password</label>
                 <input type="password" id="register-password" name="password" required>
-                <button type="submit">Cadastrar</button>
+                <button type="submit">Register</button>
             </form>
             <p id="registerMessage"></p>
-            <p>Já tem conta? <a href="#" id="showLogin">Entrar</a></p>
+            <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
         </div>
     </div>
     <script>
@@ -155,7 +155,7 @@
             localStorage.setItem('token', data.token);
             window.location.href = 'SimpleIdleJSGame.html';
         } else {
-            document.getElementById('loginMessage').textContent = data.error || 'Erro ao fazer login';
+            document.getElementById('loginMessage').textContent = data.error || 'Login failed';
         }
     };
 
@@ -171,9 +171,9 @@
         });
         const data = await res.json();
         if (res.ok) {
-            document.getElementById('registerMessage').textContent = 'Cadastro realizado! Faça login.';
+            document.getElementById('registerMessage').textContent = 'Registration successful! Please login.';
         } else {
-            document.getElementById('registerMessage').textContent = data.error || 'Erro ao cadastrar';
+            document.getElementById('registerMessage').textContent = data.error || 'Registration failed';
         }
     };
     </script>

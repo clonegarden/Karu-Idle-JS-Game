@@ -26,7 +26,7 @@
 				</div>
 				<div class="col-3 text-right" style="min-width:180px;">
 					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Gerenciar Usuário</button>
-					<button id="btnLogoff" class="btn btn-danger btn-sm">Logoff</button>
+					<button id="btnLogoff" class="btn btn-danger btn-sm">Log off</button>
 				</div>
 			</div>
 				<!-- MODAL GERENCIAMENTO DE USUÁRIO -->
@@ -35,18 +35,19 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="UserManageModalLabel">Gerenciamento do Usuário</h5>
+								<h5 class="modal-title" id="UserManageModalLabel">User Management</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div class="modal-body">
-								<p><b>Usuário:</b> <span id="userManageUsername">(carregando...)</span></p>
+								<p><b>User:</b> <span id="userManageUsername">(loading...)</span></p>
 								<hr>
-								<button class="btn btn-secondary btn-sm" onclick="alert('Funcionalidade de alteração de senha em breve!')">Alterar senha</button>
+								<button class="btn btn-secondary btn-sm" onclick="alert('Password change feature coming soon!')">Change password</button>
 								<!-- Adicione mais opções de gerenciamento aqui -->
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
@@ -152,7 +153,7 @@
 				<div class="col-6">
 					<div id="maincol">
 						<h3>Your money:</h3>					
-						<h4 id="moneycounter">$0</h4>
+						<h4 id="moneycounter"></h4>
 						<p id="autoclickerscounter">Autoclickers: 0</p>
 						<div id="divbotones">
 							<button type="button" id="btn_makemoney" class="btn btn-primary btn-block" onclick="player.MakeMoney()" style="margin: 0px 0px 10px 0px;">Make Money! ($1)</button>
@@ -239,8 +240,8 @@
 		        <input class="form-control" id="newnameinput">
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="player.setName()">Save changes</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="player.setName()">Save changes</button>
 		      </div>
 		    </div>
 		  </div>
@@ -364,7 +365,7 @@
 		      	</div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Exit</button>
 		      </div>
 		    </div>
 		  </div>
@@ -405,7 +406,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_theme_0" class="btn btn-success btn-sm" onclick="#" disabled>
+										<button id="btn_theme_0" class="btn btn-success btn-sm" disabled>
 		      								Unlocked
 		      							</button>
 		      						</td>
@@ -421,7 +422,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_theme_1" class="btn btn-success btn-sm" onclick="#" disabled>
+										<button id="btn_theme_1" class="btn btn-success btn-sm" disabled>
 		      								Unlocked
 		      							</button>
 		      						</td>
@@ -453,7 +454,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_0" class="btn btn-success btn-sm" onclick="#" disabled>
+										<button id="btn_music_0" class="btn btn-success btn-sm" disabled>
 		      								Unlocked
 		      							</button>
 		      						</td>
@@ -470,7 +471,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_1" class="btn btn-secondary btn-sm" onclick="#" disabled>
+										<button id="btn_music_1" class="btn btn-secondary btn-sm" disabled>
 		      								Locked
 		      							</button>
 		      						</td>
@@ -487,7 +488,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_0" class="btn btn-success btn-sm" onclick="#" disabled>
+										<button id="btn_music_0" class="btn btn-success btn-sm" disabled>
 		      								Unlocked
 		      							</button>
 		      						</td>
@@ -504,7 +505,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_0" class="btn btn-success btn-sm" onclick="#" disabled>
+										<button id="btn_music_0" class="btn btn-success btn-sm" disabled>
 		      								Unlocked
 		      							</button>
 		      						</td>
@@ -521,7 +522,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_1" class="btn btn-secondary btn-sm" onclick="#" disabled>
+										<button id="btn_music_1" class="btn btn-secondary btn-sm" disabled>
 		      								Locked
 		      							</button>
 		      						</td>
@@ -538,7 +539,7 @@
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
-		      							<button id="btn_music_1" class="btn btn-secondary btn-sm" onclick="#" disabled>
+										<button id="btn_music_1" class="btn btn-secondary btn-sm" disabled>
 		      								Locked
 		      							</button>
 		      						</td>
@@ -585,30 +586,31 @@
 				const namediv = document.getElementById('namediv');
 				const statnames = document.getElementById('statnames');
 				const statvalues = document.getElementById('statvalues');
-        const moneycounter = document.getElementById('moneycounter');
-				if (c && namediv && statnames && statvalues) {
-					namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
-					// Atualizar status principais
-					let statNames = 'Terra<br>Fogo<br>Água<br>Ar<br>';
-					let statValues = `${c.terra}<br>${c.fogo}<br>${c.agua}<br>${c.ar}<br>`;
-					// Adicionar outros status do template original
-					statNames += 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
-					statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
-					statnames.innerHTML = statNames;
-					statvalues.innerHTML = statValues;
-				if (moneycounter && typeof data.gold !== 'undefined') {
-					moneycounter.innerHTML = `$${data.gold}`;
-				}
-				} else {
-					console.warn('Elementos de status ou nome não encontrados no DOM.');
-				}
-			} catch (e) {
-				console.error('Erro ao carregar personagem:', e);
-				window.location.href = 'index.html';
+		const moneycounter = document.getElementById('moneycounter');
+		if (c && namediv && statnames && statvalues) {
+			namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
+			// Atualizar status principais
+			let statNames = 'Resources<br>Attack<br>Defense<br>Healing<br>';
+			let statValues = `${c.terra}<br>${c.fogo}<br>${c.agua}<br>${c.ar}<br>`;
+			// Adicionar outros status do template original
+			statNames += 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
+			statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
+			statnames.innerHTML = statNames;
+			statvalues.innerHTML = statValues;
+			if (moneycounter && typeof data.gold !== 'undefined') {
+				player.money = data.gold;
+				moneycounter.innerHTML = `$${data.gold}`;
 			}
+		} else {
+			console.warn('Elementos de status ou nome não encontrados no DOM.');
 		}
-		window.addEventListener('DOMContentLoaded', loadCharacterFromBackend);
-		</script>
+	} catch (e) {
+		console.error('Erro ao carregar personagem:', e);
+		window.location.href = 'index.html';
+	}
+}
+window.addEventListener('DOMContentLoaded', loadCharacterFromBackend);
+</script>
 		<script>
 		// Logoff
 		document.getElementById('btnLogoff').onclick = function() {
