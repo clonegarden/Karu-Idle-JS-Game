@@ -590,13 +590,15 @@
 		if (c && namediv && statnames && statvalues) {
 			namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
 			// Atualizar status principais
+			// Split stats into two groups for proper alignment
 			let statNames = 'Resources<br>Attack<br>Defense<br>Healing<br>';
 			let statValues = `${c.terra}<br>${c.fogo}<br>${c.agua}<br>${c.ar}<br>`;
-			// Adicionar outros status do template original
-			statNames += 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
-			statValues += 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
-			statnames.innerHTML = statNames;
-			statvalues.innerHTML = statValues;
+
+			let mainStatNames = 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
+			let mainStatValues = 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
+
+			statnames.innerHTML = statNames + '<hr>' + mainStatNames;
+			statvalues.innerHTML = statValues + '<hr>' + mainStatValues;
 			if (moneycounter && typeof data.gold !== 'undefined') {
 				player.money = data.gold;
 				moneycounter.innerHTML = `$${data.gold}`;
