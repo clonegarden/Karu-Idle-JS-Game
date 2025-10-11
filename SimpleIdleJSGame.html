@@ -90,24 +90,20 @@
 					<div class="row">
 						<div class="col" id="statsdiv">
 							---- Stats ----
-							<div class="row">
-								<div class="col" id="statnames">
-								Game started<br>
-								Click power<br>
-								Total clicks<br>
-								Autoclickers<br>
-								Total money<br>
-								Money spent
-								</div>
-								<div class="col-5" id="statvalues">
-									Loading...<br>
-									Loading...<br>
-									Loading...<br>
-									Loading...<br>
-									Loading...
-								</div>
-							</div>
-							<br>
+							<table class="table table-sm" id="statstable">
+								<tbody>
+									<tr><td>Resources</td><td id="stat_terra">Loading...</td></tr>
+									<tr><td>Attack</td><td id="stat_fogo">Loading...</td></tr>
+									<tr><td>Defense</td><td id="stat_agua">Loading...</td></tr>
+									<tr><td>Healing</td><td id="stat_ar">Loading...</td></tr>
+									<tr><td>Game started</td><td id="stat_gamestarted">Loading...</td></tr>
+									<tr><td>Click power</td><td id="stat_clickpower">Loading...</td></tr>
+									<tr><td>Total clicks</td><td id="stat_totalclicks">Loading...</td></tr>
+									<tr><td>Autoclickers</td><td id="stat_autoclickers">Loading...</td></tr>
+									<tr><td>Total money</td><td id="stat_totalmoney">Loading...</td></tr>
+									<tr><td>Money spent</td><td id="stat_moneyspent">Loading...</td></tr>
+								</tbody>
+							</table>
 							---- Achievements ----
 							<br>
 							<!------------------>
@@ -584,27 +580,36 @@
 				console.log('Personagem carregado:', c);
 				// Preencher nome e status do personagem
 				const namediv = document.getElementById('namediv');
-				const statnames = document.getElementById('statnames');
-				const statvalues = document.getElementById('statvalues');
+			// Stat table cells
+			const stat_terra = document.getElementById('stat_terra');
+			const stat_fogo = document.getElementById('stat_fogo');
+			const stat_agua = document.getElementById('stat_agua');
+			const stat_ar = document.getElementById('stat_ar');
+			const stat_gamestarted = document.getElementById('stat_gamestarted');
+			const stat_clickpower = document.getElementById('stat_clickpower');
+			const stat_totalclicks = document.getElementById('stat_totalclicks');
+			const stat_autoclickers = document.getElementById('stat_autoclickers');
+			const stat_totalmoney = document.getElementById('stat_totalmoney');
+			const stat_moneyspent = document.getElementById('stat_moneyspent');
 		const moneycounter = document.getElementById('moneycounter');
-		if (c && namediv && statnames && statvalues) {
-			namediv.innerHTML = 'Player: ' + (c.name || '(sem nome)');
-			// Atualizar status principais
-			// Split stats into two groups for proper alignment
-			let statNames = 'Resources<br>Attack<br>Defense<br>Healing<br>';
-			let statValues = `${c.terra}<br>${c.fogo}<br>${c.agua}<br>${c.ar}<br>`;
-
-			let mainStatNames = 'Game started<br>Click power<br>Total clicks<br>Autoclickers<br>Total money<br>Money spent';
-			let mainStatValues = 'Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...<br>Loading...';
-
-			statnames.innerHTML = statNames + '<hr>' + mainStatNames;
-			statvalues.innerHTML = statValues + '<hr>' + mainStatValues;
+		if (c && namediv) {
+			namediv.innerHTML = 'Player: ' + (c.name || '(no name)');
+			if (stat_terra) stat_terra.textContent = c.terra;
+			if (stat_fogo) stat_fogo.textContent = c.fogo;
+			if (stat_agua) stat_agua.textContent = c.agua;
+			if (stat_ar) stat_ar.textContent = c.ar;
+			if (stat_gamestarted) stat_gamestarted.textContent = c.gameStarted || 'Loading...';
+			if (stat_clickpower) stat_clickpower.textContent = c.clickpower || 'Loading...';
+			if (stat_totalclicks) stat_totalclicks.textContent = c.totalClicksEver || 'Loading...';
+			if (stat_autoclickers) stat_autoclickers.textContent = c.autoclickers || 'Loading...';
+			if (stat_totalmoney) stat_totalmoney.textContent = c.totalMoneyEver || 'Loading...';
+			if (stat_moneyspent) stat_moneyspent.textContent = c.totalMoneySpent || 'Loading...';
 			if (moneycounter && typeof data.gold !== 'undefined') {
 				player.money = data.gold;
 				moneycounter.innerHTML = `$${data.gold}`;
 			}
 		} else {
-			console.warn('Elementos de status ou nome não encontrados no DOM.');
+			console.warn('Status elements or name not found in DOM.');
 		}
 	} catch (e) {
 		console.error('Erro ao carregar personagem:', e);
