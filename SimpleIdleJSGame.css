@@ -1,3 +1,17 @@
+#statstable td {
+	font-size: 13px;
+	color: #222;
+	text-shadow: -1px 0px 2px #eee,
+				 0px 1px 2px #eee,
+				 1px 0px 2px #eee,
+				 0px -1px 2px #eee;
+	padding: 2px 8px;
+}
+
+#statstable td:hover {
+	color: #a050aa;
+	cursor: pointer;
+}
 #btnUserManage {
 	background-image: url('assets/buttons/btn_user.png');
 	background-size: 100%;
