@@ -30,8 +30,24 @@ export default async (req, res) => {
     if (userResult.rows.length > 0) {
       gold = userResult.rows[0].gold;
     }
-    // Retorna personagem + gold
-    res.status(200).json({ character: charResult.rows[0], gold });
+    // Map DB fields to frontend expected names
+    const char = charResult.rows[0];
+    res.status(200).json({
+      character: {
+        name: char.name,
+        terra: char.terra,
+        fogo: char.fogo,
+        agua: char.agua,
+        ar: char.ar,
+        gameStarted: char.game_started,
+        clickpower: char.click_power,
+        totalClicksEver: char.total_clicks_ever,
+        autoclickers: char.autoclickers,
+        totalMoneyEver: char.total_money_ever,
+        totalMoneySpent: char.total_money_spent
+      },
+      gold
+    });
   } catch (err) {
     res.status(401).json({ error: 'Invalid token', details: err.message });
   }

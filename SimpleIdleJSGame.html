@@ -598,12 +598,12 @@
 			if (stat_fogo) stat_fogo.textContent = c.fogo;
 			if (stat_agua) stat_agua.textContent = c.agua;
 			if (stat_ar) stat_ar.textContent = c.ar;
-			if (stat_gamestarted) stat_gamestarted.textContent = c.gameStarted || 'Loading...';
-			if (stat_clickpower) stat_clickpower.textContent = c.clickpower || 'Loading...';
-			if (stat_totalclicks) stat_totalclicks.textContent = c.totalClicksEver || 'Loading...';
-			if (stat_autoclickers) stat_autoclickers.textContent = c.autoclickers || 'Loading...';
-			if (stat_totalmoney) stat_totalmoney.textContent = c.totalMoneyEver || 'Loading...';
-			if (stat_moneyspent) stat_moneyspent.textContent = c.totalMoneySpent || 'Loading...';
+			if (stat_gamestarted) stat_gamestarted.textContent = c.gameStarted ?? 'Loading...';
+			if (stat_clickpower) stat_clickpower.textContent = c.clickpower ?? 'Loading...';
+			if (stat_totalclicks) stat_totalclicks.textContent = c.totalClicksEver ?? 'Loading...';
+			if (stat_autoclickers) stat_autoclickers.textContent = c.autoclickers ?? 'Loading...';
+			if (stat_totalmoney) stat_totalmoney.textContent = c.totalMoneyEver ?? 'Loading...';
+			if (stat_moneyspent) stat_moneyspent.textContent = c.totalMoneySpent ?? 'Loading...';
 			if (moneycounter && typeof data.gold !== 'undefined') {
 				player.money = data.gold;
 				moneycounter.innerHTML = `$${data.gold}`;
