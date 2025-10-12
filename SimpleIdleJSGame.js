@@ -15,7 +15,7 @@ var karuGemsGenerationTimer = setInterval("player.generateKaruGem()", 600000);
 /* Save Game */
 /*-----------*/
 //First, asks the player if they're sure to save, since it can overwrite data.
-//After confirmation, creates a localStorage JSON with player data.
+//After confirmation, creates karua localStorage JSON with player data.
 function SaveGame() {
 		Swal.fire({
 			title: 'Are you sure?',

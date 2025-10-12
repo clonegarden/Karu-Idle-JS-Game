@@ -594,33 +594,33 @@
 		const moneycounter = document.getElementById('moneycounter');
 		if (c && namediv) {
 			namediv.innerHTML = 'Player: ' + (c.name || '(no name)');
-			if (stat_terra) stat_terra.textContent = c.terra;
-			if (stat_fogo) stat_fogo.textContent = c.fogo;
-			if (stat_agua) stat_agua.textContent = c.agua;
-			if (stat_ar) stat_ar.textContent = c.ar;
+			if (stat_terra) stat_terra.textContent = Number(c.terra) || 0;
+			if (stat_fogo) stat_fogo.textContent = Number(c.fogo) || 0;
+			if (stat_agua) stat_agua.textContent = Number(c.agua) || 0;
+			if (stat_ar) stat_ar.textContent = Number(c.ar) || 0;
 			if (stat_gamestarted) stat_gamestarted.textContent = c.gameStarted ?? 'Loading...';
-			if (stat_clickpower) stat_clickpower.textContent = c.clickpower ?? 'Loading...';
-			if (stat_totalclicks) stat_totalclicks.textContent = c.totalClicksEver ?? 'Loading...';
-			if (stat_autoclickers) stat_autoclickers.textContent = c.autoclickers ?? 'Loading...';
-			if (stat_totalmoney) stat_totalmoney.textContent = c.totalMoneyEver ?? 'Loading...';
-			if (stat_moneyspent) stat_moneyspent.textContent = c.totalMoneySpent ?? 'Loading...';
+			if (stat_clickpower) stat_clickpower.textContent = Number(c.clickpower) || 0;
+			if (stat_totalclicks) stat_totalclicks.textContent = Number(c.totalClicksEver) || 0;
+			if (stat_autoclickers) stat_autoclickers.textContent = Number(c.autoclickers) || 0;
+			if (stat_totalmoney) stat_totalmoney.textContent = Number(c.totalMoneyEver) || 0;
+			if (stat_moneyspent) stat_moneyspent.textContent = Number(c.totalMoneySpent) || 0;
 			if (moneycounter && typeof data.gold !== 'undefined') {
-				player.money = data.gold;
-				moneycounter.innerHTML = `$${data.gold}`;
+				player.money = Number(data.gold) || 0;
+				moneycounter.innerHTML = `$${Number(data.gold) || 0}`;
 			}
-	            // Assign backend stat values to player object for real-time updates
-	            player.terra = c.terra;
-	            player.fogo = c.fogo;
-	            player.agua = c.agua;
-	            player.ar = c.ar;
-	            player.gameStarted = c.gameStarted;
-	            player.clickpower = c.clickpower;
-	            player.totalClicksEver = c.totalClicksEver;
-	            player.autoclickers = c.autoclickers;
-	            player.totalMoneyEver = c.totalMoneyEver;
-	            player.totalMoneySpent = c.totalMoneySpent;
-	            player.name = c.name;
-	            player.updateStats();
+		    // Assign backend stat values to player object for real-time updates
+			player.terra = Number(c.terra) || 0;
+			player.fogo = Number(c.fogo) || 0;
+			player.agua = Number(c.agua) || 0;
+			player.ar = Number(c.ar) || 0;
+			player.gameStarted = c.gameStarted;
+			player.clickpower = Number(c.clickpower) || 0;
+			player.totalClicksEver = Number(c.totalClicksEver) || 0;
+			player.autoclickers = Number(c.autoclickers) || 0;
+			player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
+			player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
+			player.name = c.name;
+			player.updateStats();
 		} else {
 			console.warn('Status elements or name not found in DOM.');
 		}
