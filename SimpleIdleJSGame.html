@@ -19,10 +19,12 @@
 			<!-- Header -->
 			<div class="row" id="header" style="align-items: center;">
 				<div class="col-2" id="headericon">
-					<img id="headerfavicon" class="img-fluid rounded-circle img-thumbnail" src="assets/favicon.png" alt="Game Icon">
+					<img id="headerfavicon" class="img-fluid rounded-circle img-thumbnail" src="assets/favicon.png" alt="Game Icon" style="width: 80%; max-width: 48px;">
 				</div>
 				<div class="col">
-					<div id="headertext">ZÆLON Dream Fracture</div>
+					<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0;">
+						<h3>Your money:<h4 id="moneycounter"></h4></h3>
+					</div>
 				</div>
 				<div class="col-3 text-right" style="min-width:180px;">
 					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Gerenciar Usuário</button>

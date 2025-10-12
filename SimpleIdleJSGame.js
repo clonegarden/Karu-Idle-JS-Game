@@ -61,11 +61,18 @@ function SaveGame() {
 					document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" saved the game and updated the database.&#013;");
 					document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
 				})
-				.catch(err => {
-					Swal.fire('Error', 'Could not update stats in the database.', 'error');
-					document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>Failed to update database: "+err.message+"&#013;");
-					document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
-				});
+				   .catch(err => {
+					   let errorMsg = err.message;
+					   if (err.response && err.response.json) {
+						   err.response.json().then(data => {
+							   Swal.fire('Error', 'Could not update stats in the database.<br>'+ (data.details || errorMsg), 'error');
+						   });
+					   } else {
+						   Swal.fire('Error', 'Could not update stats in the database.<br>' + errorMsg, 'error');
+					   }
+					   document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>Failed to update database: "+errorMsg+"&#013;");
+					   document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+				   });
 			}
 		})
 }
