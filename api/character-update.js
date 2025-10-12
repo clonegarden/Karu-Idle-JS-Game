@@ -38,22 +38,55 @@ export default async (req, res) => {
       totalMoneySpent
     } = body;
     if (!user_id) return res.status(400).json({ error: 'Missing user_id' });
-    // Update all fields in the database
-    await pool.query(
-      `UPDATE characters SET
-        name = $1,
-        terra = $2,
-        fogo = $3,
-        agua = $4,
-        ar = $5,
-        game_started = $6,
-        click_power = $7,
-        total_clicks_ever = $8,
-        autoclickers = $9,
-        total_money_ever = $10,
-        total_money_spent = $11
-      WHERE user_id = $12`,
-      [
+    // Debug: log all values being sent to the query
+    console.log('Updating character for user_id:', user_id);
+    console.log('Query values:', {
+      name,
+      terra,
+      fogo,
+      agua,
+      ar,
+      gameStarted,
+      clickpower,
+      totalClicksEver,
+      autoclickers,
+      totalMoneyEver,
+      totalMoneySpent
+    });
+    try {
+      await pool.query(
+        `UPDATE characters SET
+          name = $1,
+          terra = $2,
+          fogo = $3,
+          agua = $4,
+          ar = $5,
+          game_started = $6,
+          click_power = $7,
+          total_clicks_ever = $8,
+          autoclickers = $9,
+          total_money_ever = $10,
+          total_money_spent = $11
+        WHERE user_id = $12`,
+        [
+          name,
+          terra,
+          fogo,
+          agua,
+          ar,
+          gameStarted,
+          clickpower,
+          totalClicksEver,
+          autoclickers,
+          totalMoneyEver,
+          totalMoneySpent,
+          user_id
+        ]
+      );
+      res.status(200).json({ success: true });
+    } catch (sqlError) {
+      console.error('SQL error during character update:', sqlError);
+      res.status(500).json({ error: 'Failed to update character', details: sqlError.message, values: {
         name,
         terra,
         fogo,
@@ -66,10 +99,10 @@ export default async (req, res) => {
         totalMoneyEver,
         totalMoneySpent,
         user_id
-      ]
-    );
-    res.status(200).json({ success: true });
+      }});
+    }
   } catch (e) {
+    console.error('General error in character-update:', e);
     res.status(500).json({ error: 'Failed to update character', details: e.message });
   }
 };
