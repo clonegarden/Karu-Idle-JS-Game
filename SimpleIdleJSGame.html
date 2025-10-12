@@ -19,10 +19,13 @@
 			<!-- Header -->
 			<div class="row" id="header" style="align-items: center;">
 				<div class="col-2" id="headericon">
-					<img id="headerfavicon" class="img-fluid rounded-circle img-thumbnail" src="assets/favicon.png" alt="Game Icon">
+					<img id="headerfavicon" class="img-fluid rounded-circle img-thumbnail" src="assets/favicon.png" alt="Game Icon" style="width: 80%; max-width: 48px;">
 				</div>
 				<div class="col">
-					<div id="headertext">ZÆLON Dream Fracture</div>
+					<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0;">
+						<h3>Your money:<h4 id="moneycounter"></h4></h3>
+						<p id="autoclickerscounter">Extraction Areas: 0</p>
+					</div>
 				</div>
 				<div class="col-3 text-right" style="min-width:180px;">
 					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Gerenciar Usuário</button>
@@ -56,7 +59,7 @@
 			<!-- Navbar-esque separator -->
 			<div class="row">
 				<div class="col" id="navbar">
-					<div id="clockcontainer"></div>
+					<!-- clockcontainer removed -->
 				</div>
 			</div>
 
@@ -147,23 +150,54 @@
 				</div>
 				<!-- main div -->
 				<div class="col-6">
-					<div id="maincol">
-						<h3>Your money:</h3>					
-						<h4 id="moneycounter"></h4>
-						<p id="autoclickerscounter">Autoclickers: 0</p>
-						<div id="divbotones">
-							<button type="button" id="btn_makemoney" class="btn btn-primary btn-block" onclick="player.MakeMoney()" style="margin: 0px 0px 10px 0px;">Make Money! ($1)</button>
-							<button type="button" id="savebutton" class="btn btn-danger" onclick="SaveGame()">Save Game</button>
-							<button type="button" id="loadbutton" class="btn btn-secondary" onclick="LoadGame()">Load Game</button>
-						</div>
-						<br>
-						<small>Created by Karukami</small><br>
-						<small>Now supporting Git!</small>
+					<div id="divbotones">
+						<button type="button" id="btn_makemoney" class="btn btn-primary btn-block" onclick="player.MakeMoney()" style="margin: 0px 0px 10px 0px;">Make Money! ($1)</button>
+						<button type="button" id="savebutton" class="btn btn-danger" onclick="SaveGame()">Save Game</button>
+						<button type="button" id="loadbutton" class="btn btn-secondary" onclick="LoadGame()">Load Game</button>
 					</div>
-					<div id="consolediv">
-						<p>- Console -</p>
+					<br>
+					<div id="consolediv" style="transition: height 0.3s, min-height 0.3s;">
+						<div style="display: flex; align-items: center; justify-content: space-between;">
+							<p style="margin-bottom: 0;">- Console -</p>
+							<button id="consoleToggleBtn" style="background: none; border: none; font-size: 1.2em; cursor: pointer;" title="Collapse/Expand Console">
+								<span id="consoleArrow">▼</span>
+							</button>
+						</div>
 						<textarea class="form-control form-control-sm overflow-hidden" id="console" cols="30" rows="5" disabled>>>Welcome to Karu's Idle JS Game!&#013;</textarea>
 					</div>
+					<script>
+					// Collapsible console logic
+					const consoleDiv = document.getElementById('consolediv');
+					const mainCol = document.getElementById('maincol');
+					const consoleToggleBtn = document.getElementById('consoleToggleBtn');
+					const consoleArrow = document.getElementById('consoleArrow');
+					const consoleArea = document.getElementById('console');
+					let consoleCollapsed = false;
+					function collapseConsole() {
+						consoleDiv.style.height = '32px';
+						consoleDiv.style.minHeight = '32px';
+						consoleArea.style.display = 'none';
+						consoleArrow.textContent = '▲';
+						mainCol.style.minHeight = '500px';
+						mainCol.style.height = 'auto';
+					}
+					function expandConsole() {
+						consoleDiv.style.height = '';
+						consoleDiv.style.minHeight = '';
+						consoleArea.style.display = '';
+						consoleArrow.textContent = '▼';
+						mainCol.style.minHeight = '';
+						mainCol.style.height = '';
+					}
+					consoleToggleBtn.onclick = function() {
+						if (!consoleCollapsed) {
+							collapseConsole();
+						} else {
+							expandConsole();
+						}
+						consoleCollapsed = !consoleCollapsed;
+					};
+					</script>
 				</div>
 				<div class="col">
 					<div class="row">
@@ -609,18 +643,18 @@
 				moneycounter.innerHTML = `$${data.gold}`;
 			}
 	            // Assign backend stat values to player object for real-time updates
-	            player.terra = c.terra;
-	            player.fogo = c.fogo;
-	            player.agua = c.agua;
-	            player.ar = c.ar;
-	            player.gameStarted = c.gameStarted;
-	            player.clickpower = c.clickpower;
-	            player.totalClicksEver = c.totalClicksEver;
-	            player.autoclickers = c.autoclickers;
-	            player.totalMoneyEver = c.totalMoneyEver;
-	            player.totalMoneySpent = c.totalMoneySpent;
-	            player.name = c.name;
-	            player.updateStats();
+				player.terra = Number(c.terra) || 0;
+				player.fogo = Number(c.fogo) || 0;
+				player.agua = Number(c.agua) || 0;
+				player.ar = Number(c.ar) || 0;
+				player.gameStarted = c.gameStarted;
+				player.clickpower = Number(c.clickpower) || 0;
+				player.totalClicksEver = Number(c.totalClicksEver) || 0;
+				player.autoclickers = Number(c.autoclickers) || 0;
+				player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
+				player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
+				player.name = c.name;
+				player.updateStats();
 		} else {
 			console.warn('Status elements or name not found in DOM.');
 		}
