@@ -147,8 +147,8 @@
 				</div>
 				<!-- main div -->
 				<div class="col-6">
-					<div id="maincol">
-						<h3>Your money:</h3>					
+					<div id="maincol" style="transition: height 0.3s, min-height 0.3s;">
+						<h3>Your money:</h3>
 						<h4 id="moneycounter"></h4>
 						<p id="autoclickerscounter">Autoclickers: 0</p>
 						<div id="divbotones">
@@ -157,11 +157,49 @@
 							<button type="button" id="loadbutton" class="btn btn-secondary" onclick="LoadGame()">Load Game</button>
 						</div>
 						<br>
+					</div>
+					<div id="consolediv" style="transition: height 0.3s, min-height 0.3s;">
+						<div style="display: flex; align-items: center; justify-content: space-between;">
+							<p style="margin-bottom: 0;">- Console -</p>
+							<button id="consoleToggleBtn" style="background: none; border: none; font-size: 1.2em; cursor: pointer;" title="Collapse/Expand Console">
+								<span id="consoleArrow">▼</span>
+							</button>
 						</div>
-					<div id="consolediv">
-						<p>- Console -</p>
 						<textarea class="form-control form-control-sm overflow-hidden" id="console" cols="30" rows="5" disabled>>>Welcome to Karu's Idle JS Game!&#013;</textarea>
 					</div>
+					<script>
+					// Collapsible console logic
+					const consoleDiv = document.getElementById('consolediv');
+					const mainCol = document.getElementById('maincol');
+					const consoleToggleBtn = document.getElementById('consoleToggleBtn');
+					const consoleArrow = document.getElementById('consoleArrow');
+					const consoleArea = document.getElementById('console');
+					let consoleCollapsed = false;
+					function collapseConsole() {
+						consoleDiv.style.height = '32px';
+						consoleDiv.style.minHeight = '32px';
+						consoleArea.style.display = 'none';
+						consoleArrow.textContent = '▲';
+						mainCol.style.minHeight = '500px';
+						mainCol.style.height = 'auto';
+					}
+					function expandConsole() {
+						consoleDiv.style.height = '';
+						consoleDiv.style.minHeight = '';
+						consoleArea.style.display = '';
+						consoleArrow.textContent = '▼';
+						mainCol.style.minHeight = '';
+						mainCol.style.height = '';
+					}
+					consoleToggleBtn.onclick = function() {
+						if (!consoleCollapsed) {
+							collapseConsole();
+						} else {
+							expandConsole();
+						}
+						consoleCollapsed = !consoleCollapsed;
+					};
+					</script>
 				</div>
 				<div class="col">
 					<div class="row">
