@@ -3,8 +3,8 @@
 /*-------------*/
 //This loads on init
 console.log("SimpleIdleJSGame.js has been linked!");
-ShowDateTime();
-var clockinterval = setInterval(ShowDateTime, 1000);
+	console.log("SimpleIdleJSGame.js has been linked!");
+	// ShowDateTime and clockinterval removed (no clockcontainer in UI)
 var player = new Player();
 var autoclickertimer = setInterval("player.AutoClickerMakeMoney()", 100);
 var updateAchievementsTimer = setInterval("player.updateAchievements()", 1000);
