@@ -17,28 +17,57 @@ var karuGemsGenerationTimer = setInterval("player.generateKaruGem()", 600000);
 //First, asks the player if they're sure to save, since it can overwrite data.
 //After confirmation, creates a localStorage JSON with player data.
 function SaveGame() {
-	Swal.fire({
-	  title: 'Are you sure?',
-	  text: "This will overwrite any previously saved file!",
-	  type: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: 'Yes, save the game!'
-	}).then((result) => {
-	  if (result.value) {
-	    Swal.fire(
-	      'Saved!',
-	      'Your game has been saved. [Money: $' + Math.round(player.money) + 
-	      " - Autoclickers: " + player.autoclickers + "]",
-	      'success'
-	    )
-	   	var savefile = JSON.stringify(player);
-		localStorage.setItem("SimpleIdleJSGame_savefile", savefile);
-		document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" saved the game.&#013;");
-		document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
-	  }
-	})
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "This will overwrite any previously saved file and update your stats in the database!",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, save the game!'
+		}).then((result) => {
+			if (result.value) {
+				// Save to localStorage as before
+				var savefile = JSON.stringify(player);
+				localStorage.setItem("SimpleIdleJSGame_savefile", savefile);
+				// Send all stats to backend
+				const token = localStorage.getItem('token');
+				fetch('/api/character-update', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + token
+					},
+					body: JSON.stringify({
+						name: player.name,
+						terra: player.terra,
+						fogo: player.fogo,
+						agua: player.agua,
+						ar: player.ar,
+						gameStarted: player.gameStarted,
+						clickpower: player.clickpower,
+						totalClicksEver: player.totalClicksEver,
+						autoclickers: player.autoclickers,
+						totalMoneyEver: player.totalMoneyEver,
+						totalMoneySpent: player.totalMoneySpent
+					})
+				})
+				.then(res => {
+					if (!res.ok) throw new Error('Failed to update character in database');
+					return res.json();
+				})
+				.then(data => {
+					Swal.fire('Saved!', 'Your game has been saved and stats updated in the database.', 'success');
+					document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" saved the game and updated the database.&#013;");
+					document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+				})
+				.catch(err => {
+					Swal.fire('Error', 'Could not update stats in the database.', 'error');
+					document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>Failed to update database: "+err.message+"&#013;");
+					document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+				});
+			}
+		})
 }
 
 /*-----------*/

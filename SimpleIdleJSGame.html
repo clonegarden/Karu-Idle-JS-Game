@@ -608,6 +608,19 @@
 				player.money = data.gold;
 				moneycounter.innerHTML = `$${data.gold}`;
 			}
+	            // Assign backend stat values to player object for real-time updates
+	            player.terra = c.terra;
+	            player.fogo = c.fogo;
+	            player.agua = c.agua;
+	            player.ar = c.ar;
+	            player.gameStarted = c.gameStarted;
+	            player.clickpower = c.clickpower;
+	            player.totalClicksEver = c.totalClicksEver;
+	            player.autoclickers = c.autoclickers;
+	            player.totalMoneyEver = c.totalMoneyEver;
+	            player.totalMoneySpent = c.totalMoneySpent;
+	            player.name = c.name;
+	            player.updateStats();
 		} else {
 			console.warn('Status elements or name not found in DOM.');
 		}

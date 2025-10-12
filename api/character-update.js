@@ -23,11 +23,53 @@ export default async (req, res) => {
     if (typeof body === 'string') {
       body = JSON.parse(body);
     }
-    const { name } = body;
-    if (!name || !user_id) return res.status(400).json({ error: 'Missing name or user_id' });
-    await pool.query('UPDATE characters SET name = $1 WHERE user_id = $2', [name, user_id]);
+    // Destructure all stat fields from body
+    const {
+      name,
+      terra,
+      fogo,
+      agua,
+      ar,
+      gameStarted,
+      clickpower,
+      totalClicksEver,
+      autoclickers,
+      totalMoneyEver,
+      totalMoneySpent
+    } = body;
+    if (!user_id) return res.status(400).json({ error: 'Missing user_id' });
+    // Update all fields in the database
+    await pool.query(
+      `UPDATE characters SET
+        name = $1,
+        terra = $2,
+        fogo = $3,
+        agua = $4,
+        ar = $5,
+        game_started = $6,
+        click_power = $7,
+        total_clicks_ever = $8,
+        autoclickers = $9,
+        total_money_ever = $10,
+        total_money_spent = $11
+      WHERE user_id = $12`,
+      [
+        name,
+        terra,
+        fogo,
+        agua,
+        ar,
+        gameStarted,
+        clickpower,
+        totalClicksEver,
+        autoclickers,
+        totalMoneyEver,
+        totalMoneySpent,
+        user_id
+      ]
+    );
     res.status(200).json({ success: true });
   } catch (e) {
-    res.status(500).json({ error: 'Failed to update name', details: e.message });
+    res.status(500).json({ error: 'Failed to update character', details: e.message });
   }
 };
