@@ -764,11 +764,39 @@ function Player(){
 	/* Update Stats */
 	/*--------------*/
 	this.updateStats = function() {
-		document.getElementById("statvalues").innerHTML =
-		this.gameStarted + "<br>" + this.clickpower + "<br>" +this.totalClicksEver 
-		+ "<br>" + this.autoclickers + "<br>" + Math.round(this.totalMoneyEver) 
-		+ "<br>" + this.totalMoneySpent;
-		document.getElementById("rubycounter").innerHTML = "Karu Gems: " + this.karugems;
+		// Update stat table cells in real time
+		const stat_terra = document.getElementById('stat_terra');
+		const stat_fogo = document.getElementById('stat_fogo');
+		const stat_agua = document.getElementById('stat_agua');
+		const stat_ar = document.getElementById('stat_ar');
+		const stat_gamestarted = document.getElementById('stat_gamestarted');
+		const stat_clickpower = document.getElementById('stat_clickpower');
+		const stat_totalclicks = document.getElementById('stat_totalclicks');
+		const stat_autoclickers = document.getElementById('stat_autoclickers');
+		const stat_totalmoney = document.getElementById('stat_totalmoney');
+		const stat_moneyspent = document.getElementById('stat_moneyspent');
+
+		if (stat_terra) stat_terra.textContent = this.terra ?? 0;
+		if (stat_fogo) stat_fogo.textContent = this.fogo ?? 0;
+		if (stat_agua) stat_agua.textContent = this.agua ?? 0;
+		if (stat_ar) stat_ar.textContent = this.ar ?? 0;
+		if (stat_gamestarted) stat_gamestarted.textContent = this.gameStarted ?? 0;
+		if (stat_clickpower) stat_clickpower.textContent = this.clickpower ?? 0;
+		if (stat_totalclicks) stat_totalclicks.textContent = this.totalClicksEver ?? 0;
+		if (stat_autoclickers) stat_autoclickers.textContent = this.autoclickers ?? 0;
+		if (stat_totalmoney) stat_totalmoney.textContent = Math.round(this.totalMoneyEver) ?? 0;
+		if (stat_moneyspent) stat_moneyspent.textContent = this.totalMoneySpent ?? 0;
+
+		// Also update statvalues (legacy/custom)
+		if (document.getElementById("statvalues")) {
+			document.getElementById("statvalues").innerHTML =
+				this.gameStarted + "<br>" + this.clickpower + "<br>" + this.totalClicksEver
+				+ "<br>" + this.autoclickers + "<br>" + Math.round(this.totalMoneyEver)
+				+ "<br>" + this.totalMoneySpent;
+		}
+		if (document.getElementById("rubycounter")) {
+			document.getElementById("rubycounter").innerHTML = "Karu Gems: " + this.karugems;
+		}
 	}
 
 	/*----------------------*/
