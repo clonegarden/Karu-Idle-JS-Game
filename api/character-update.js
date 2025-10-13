@@ -38,20 +38,31 @@ export default async (req, res) => {
       totalMoneySpent
     } = body;
     if (!user_id) return res.status(400).json({ error: 'Missing user_id' });
+    // Ensure integer fields are cast to integers
+    const terraInt = parseInt(terra) || 0;
+    const fogoInt = parseInt(fogo) || 0;
+    const aguaInt = parseInt(agua) || 0;
+    const arInt = parseInt(ar) || 0;
+    const gameStartedInt = parseInt(gameStarted) || 0;
+    const clickpowerInt = parseInt(clickpower) || 0;
+    const totalClicksEverInt = parseInt(totalClicksEver) || 0;
+    const autoclickersInt = parseInt(autoclickers) || 0;
+    const totalMoneyEverInt = Math.round(Number(totalMoneyEver)) || 0;
+    const totalMoneySpentInt = parseInt(totalMoneySpent) || 0;
     // Debug: log all values being sent to the query
     console.log('Updating character for user_id:', user_id);
     console.log('Query values:', {
       name,
-      terra,
-      fogo,
-      agua,
-      ar,
-      gameStarted,
-      clickpower,
-      totalClicksEver,
-      autoclickers,
-      totalMoneyEver,
-      totalMoneySpent
+      terra: terraInt,
+      fogo: fogoInt,
+      agua: aguaInt,
+      ar: arInt,
+      gameStarted: gameStartedInt,
+      clickpower: clickpowerInt,
+      totalClicksEver: totalClicksEverInt,
+      autoclickers: autoclickersInt,
+      totalMoneyEver: totalMoneyEverInt,
+      totalMoneySpent: totalMoneySpentInt
     });
     try {
       await pool.query(
@@ -70,16 +81,16 @@ export default async (req, res) => {
         WHERE user_id = $12`,
         [
           name,
-          terra,
-          fogo,
-          agua,
-          ar,
-          gameStarted,
-          clickpower,
-          totalClicksEver,
-          autoclickers,
-          totalMoneyEver,
-          totalMoneySpent,
+          terraInt,
+          fogoInt,
+          aguaInt,
+          arInt,
+          gameStartedInt,
+          clickpowerInt,
+          totalClicksEverInt,
+          autoclickersInt,
+          totalMoneyEverInt,
+          totalMoneySpentInt,
           user_id
         ]
       );
@@ -88,16 +99,16 @@ export default async (req, res) => {
       console.error('SQL error during character update:', sqlError);
       res.status(500).json({ error: 'Failed to update character', details: sqlError.message, values: {
         name,
-        terra,
-        fogo,
-        agua,
-        ar,
-        gameStarted,
-        clickpower,
-        totalClicksEver,
-        autoclickers,
-        totalMoneyEver,
-        totalMoneySpent,
+        terra: terraInt,
+        fogo: fogoInt,
+        agua: aguaInt,
+        ar: arInt,
+        gameStarted: gameStartedInt,
+        clickpower: clickpowerInt,
+        totalClicksEver: totalClicksEverInt,
+        autoclickers: autoclickersInt,
+        totalMoneyEver: totalMoneyEverInt,
+        totalMoneySpent: totalMoneySpentInt,
         user_id
       }});
     }

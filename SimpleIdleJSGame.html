@@ -635,7 +635,15 @@
 			if (stat_fogo) stat_fogo.textContent = Number(c.fogo) || 0;
 			if (stat_agua) stat_agua.textContent = Number(c.agua) || 0;
 			if (stat_ar) stat_ar.textContent = Number(c.ar) || 0;
-			if (stat_gamestarted) stat_gamestarted.textContent = c.gameStarted ?? 'Loading...';
+			if (stat_gamestarted) {
+				let startedDisplay = 'Not started';
+				if (c.gameStarted && !isNaN(Number(c.gameStarted)) && Number(c.gameStarted) > 1000000000) {
+					// If it's a timestamp, show formatted date
+					const date = new Date(Number(c.gameStarted));
+					startedDisplay = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+				}
+				stat_gamestarted.textContent = startedDisplay;
+			}
 			if (stat_clickpower) stat_clickpower.textContent = Number(c.clickpower) || 0;
 			if (stat_totalclicks) stat_totalclicks.textContent = Number(c.totalClicksEver) || 0;
 			if (stat_autoclickers) stat_autoclickers.textContent = Number(c.autoclickers) || 0;
