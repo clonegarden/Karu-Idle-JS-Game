@@ -83,60 +83,54 @@ function SaveGame() {
 //First, asks the player if they're sure to load, since it can make them lose progress.
 //After confirmation, loads a localStorage JSON with player data.
 function LoadGame() {
-	var loadedfile = localStorage.getItem("SimpleIdleJSGame_savefile");
-	var loadedplayer = JSON.parse(loadedfile);
-	Swal.fire({
-	  title: 'Are you sure?',
-	  text: "Loading game: "
-	  		+ "Money: $" + Math.round(loadedplayer.money) + 
-	  		" - Autoclickers: " + loadedplayer.autoclickers,
-	  type: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: 'Yes, load it!'
-	}).then((result) => {
-	  if (result.value) {
-	    Swal.fire(
-	      'Loaded!',
-	      'Your game has been loaded',
-	      'success'
-	    )
-	    player.name = loadedplayer.name;
-		player.money = loadedplayer.money;
-		player.autoclickers = loadedplayer.autoclickers;
-		player.autoclickercost = loadedplayer.autoclickercost;
-		player.activeavatar = loadedplayer.activeavatar;
-		player.gameStarted = loadedplayer.gameStarted;
-		player.totalClicksEver = loadedplayer.totalClicksEver;
-		player.totalMoneyEver = loadedplayer.totalMoneyEver;
-		player.totalMoneySpent = loadedplayer.totalMoneySpent;
-		player.clickpower = loadedplayer.clickpower;
-		player.clickpowercost = loadedplayer.clickpowercost;
-		player.newavatarcost = loadedplayer.newavatarcost;
-		player.unlockedAvatar = loadedplayer.unlockedAvatar;
-		player.unlockedAchievement = loadedplayer.unlockedAchievement;
-		player.karugems = loadedplayer.karugems;
-		player.unlockedSkill = loadedplayer.unlockedSkill;
-		player.unlockedTheme = loadedplayer.unlockedTheme;
-		player.unlockedMusic = loadedplayer.unlockedMusic;
-		player.activeTheme = loadedplayer.activeTheme;
-		player.updateBoutique();
-		player.updateAchievements();
-		player.updateShop();
-		player.UpdateAvatar();
-		player.updateStats();
-		player.updateTheme();
-		player.updateMusicShop();
-		document.getElementById("Shop_btn_newavatar").innerHTML = "Get New Avatar ($" + loadedplayer.newavatarcost + ")";
-		player.updateBoutique();
-		document.getElementById("namediv").innerHTML = "Player: " + loadedplayer.name;
-		document.getElementById("autoclickerscounter").innerHTML = "Autoclickers: " + loadedplayer.autoclickers;
-		document.getElementById("Shop_btn_autoclicker").innerHTML = "Buy Autoclicker ($" + Math.round(loadedplayer.autoclickercost) + ")";
-		document.getElementById("btn_makemoney").innerHTML = "Make Money! ($" + loadedplayer.clickpower + ")";
-		document.getElementById("Shop_btn_clickpower").innerHTML = "Upgrade Click Power ($" + loadedplayer.clickpowercost + ")";
-		document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game.&#013;");
-		document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
-	  }
-	})
+			const token = localStorage.getItem('token');
+			if (!token) {
+					Swal.fire('Not logged in', 'You must be logged in to load your game.', 'warning');
+					return;
+			}
+			fetch('/api/character', {
+					headers: { 'Authorization': 'Bearer ' + token }
+			})
+			.then(res => {
+					if (!res.ok) throw new Error('Could not load character from database');
+					return res.json();
+			})
+			.then(data => {
+					const c = data.character;
+					Swal.fire({
+							title: 'Are you sure?',
+							text: `Loading game: Money: $${Math.round(data.gold)} - Autoclickers: ${c.autoclickers}`,
+							type: 'warning',
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#d33',
+							confirmButtonText: 'Yes, load it!'
+					}).then((result) => {
+							if (result.value) {
+									Swal.fire('Loaded!', 'Your game has been loaded from the database.', 'success');
+									player.name = c.name;
+									player.money = Number(data.gold) || 0;
+									player.terra = Number(c.terra) || 0;
+									player.fogo = Number(c.fogo) || 0;
+									player.agua = Number(c.agua) || 0;
+									player.ar = Number(c.ar) || 0;
+									player.gameStarted = c.gameStarted;
+									player.clickpower = Number(c.clickpower) || 0;
+									player.totalClicksEver = Number(c.totalClicksEver) || 0;
+									player.autoclickers = Number(c.autoclickers) || 0;
+									player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
+									player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
+									// UI updates
+									player.updateStats();
+									document.getElementById("namediv").innerHTML = "Player: " + c.name;
+									document.getElementById("autoclickerscounter").textContent = `Autoclickers: ${c.autoclickers}`;
+									document.getElementById("moneycounter").textContent = `$${Number(data.gold) || 0}`;
+									document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game from database.&#013;");
+									document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+							}
+					});
+			})
+			.catch(err => {
+					Swal.fire('Error', 'Could not load character from database.<br>' + err.message, 'error');
+			});
 }
