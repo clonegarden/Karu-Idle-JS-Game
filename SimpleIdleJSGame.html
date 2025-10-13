@@ -169,29 +169,37 @@
 				<div class="col-6">
 					<div id="maincol" style="transition: height 0.3s, min-height 0.3s;">
 						
-						<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0; position: relative; overflow: hidden; width: 320px; height: 320px; background: #222; border-radius: 12px; box-shadow: 0 0 12px #a84cff;">
-							<img id="mapTile" src="assets/tile0.jpg" alt="Map Tile" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-							<!-- Arrow controls -->
-							<button id="arrowUp" style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▲</button>
-							<button id="arrowDown" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▼</button>
-							<button id="arrowLeft" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">◀</button>
-							<button id="arrowRight" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▶</button>
+						<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0; position: relative; overflow: visible; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+							<div id="mapWindow" style="position: relative; overflow: hidden; width: 320px; height: 320px; background: #222; border-radius: 12px; box-shadow: 0 0 12px #a84cff; display: flex; align-items: center; justify-content: center;">
+								<img id="mapTile" src="assets/tile0.jpg" alt="Map Tile" style="position: absolute; left: 0; top: 0; width: 640px; height: 640px;">
+								<!-- Arrow controls -->
+								<img id="arrowUp" src="assets/avatar/select_arrow_right.png" style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%) rotate(-90deg); width: 32px; height: 32px; cursor: pointer; z-index: 2;" alt="Up">
+								<img id="arrowDown" src="assets/avatar/select_arrow_right.png" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%) rotate(90deg); width: 32px; height: 32px; cursor: pointer; z-index: 2;" alt="Down">
+								<img id="arrowLeft" src="assets/avatar/select_arrow_left.png" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; cursor: pointer; z-index: 2;" alt="Left">
+								<img id="arrowRight" src="assets/avatar/select_arrow_right.png" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; cursor: pointer; z-index: 2;" alt="Right">
+							</div>
 						</div>
 						<div id="divbotones">
 							<button type="button" id="btn_makemoney" class="btn btn-primary btn-block" onclick="player.MakeMoney()" style="margin: 0px 0px 10px 0px;">Make Money! ($1)</button>
 							<!-- Save and Load buttons moved to Player Settings modal -->
 <script>
-// Simple map navigation logic
+// Map navigation logic with overflow hidden and tile movement
 let mapX = 0, mapY = 0;
-function updateMapTile() {
-	// For demo, just use tile0.jpg always. Replace with logic for different tiles if needed.
-	document.getElementById('mapTile').src = `assets/tile0.jpg`;
+const mapTile = document.getElementById('mapTile');
+const tileSize = 320; // window size
+const mapSize = 640; // image size
+function updateMapTilePosition() {
+	// Clamp mapX/mapY so the window never shows outside the image
+	mapX = Math.max(0, Math.min(mapSize - tileSize, mapX));
+	mapY = Math.max(0, Math.min(mapSize - tileSize, mapY));
+	mapTile.style.left = `-${mapX}px`;
+	mapTile.style.top = `-${mapY}px`;
 }
-document.getElementById('arrowUp').onclick = function() { mapY--; updateMapTile(); };
-document.getElementById('arrowDown').onclick = function() { mapY++; updateMapTile(); };
-document.getElementById('arrowLeft').onclick = function() { mapX--; updateMapTile(); };
-document.getElementById('arrowRight').onclick = function() { mapX++; updateMapTile(); };
-updateMapTile();
+document.getElementById('arrowUp').onclick = function() { mapY -= 64; updateMapTilePosition(); };
+document.getElementById('arrowDown').onclick = function() { mapY += 64; updateMapTilePosition(); };
+document.getElementById('arrowLeft').onclick = function() { mapX -= 64; updateMapTilePosition(); };
+document.getElementById('arrowRight').onclick = function() { mapX += 64; updateMapTilePosition(); };
+updateMapTilePosition();
 </script>
 						</div>
 						<br>
