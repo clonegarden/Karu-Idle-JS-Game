@@ -24,17 +24,17 @@
 				<div class="col">
 					
 						<div class="d-flex align-items-center" style="font-size: 1.2rem; gap: 18px;">
-							<span style="display: flex; align-items: center; gap: 6px;">
+							<span style="display: flex; align-items: center; gap: 6px; font-family: monospace; text-shadow: -1px 0px 2px #222222, 0px 1px 2px #222222, 1px 0px 2px #222222, 0px -1px 2px #222222;">
 								<!-- Coin SVG -->
 								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><circle cx="11" cy="11" r="10" fill="#ffe066" stroke="#a84cff" stroke-width="2"/><text x="11" y="16" text-anchor="middle" font-size="12" fill="#a84cff" font-family="monospace">$</text></svg>
 								<span id="moneycounter">$0</span>
 							</span>
-							<span style="display: flex; align-items: center; gap: 6px;">
+							<span style="display: flex; align-items: center; gap: 6px; font-family: monospace; text-shadow: -1px 0px 2px #222222, 0px 1px 2px #222222, 1px 0px 2px #222222, 0px -1px 2px #222222;">
 								<!-- Mouse SVG -->
 								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><rect x="6" y="4" width="10" height="14" rx="5" fill="#eee" stroke="#a84cff" stroke-width="2"/><rect x="10" y="4" width="2" height="5" fill="#a84cff"/></svg>
-								<span id="autoclickerscounter">Autoclickers: 0</span>
+								<span id="autoclickerscounter">Generator: 0</span>
 							</span>
-							<span style="display: flex; align-items: center; gap: 6px;">
+							<span style="display: flex; align-items: center; gap: 6px; font-family: monospace; text-shadow: -1px 0px 2px #222222, 0px 1px 2px #222222, 1px 0px 2px #222222, 0px -1px 2px #222222;">
 								<!-- Gem SVG -->
 								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><polygon points="11,2 20,8 16,20 6,20 2,8" fill="#a8e6cf" stroke="#a84cff" stroke-width="2"/></svg>
 								<span id="karugemscounter">Gems: 0</span>
@@ -195,6 +195,7 @@
 					function collapseConsole() {
 						consoleDiv.style.height = '32px';
 						consoleDiv.style.minHeight = '32px';
+						consoleDiv.style.pointerEvents = 'none';
 						consoleArea.style.display = 'none';
 						consoleArrow.textContent = '▲';
 						mainCol.style.minHeight = '500px';
@@ -203,6 +204,7 @@
 					function expandConsole() {
 						consoleDiv.style.height = '';
 						consoleDiv.style.minHeight = '';
+						consoleDiv.style.pointerEvents = '';
 						consoleArea.style.display = '';
 						consoleArrow.textContent = '▼';
 						mainCol.style.minHeight = '';
