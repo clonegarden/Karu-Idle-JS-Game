@@ -307,10 +307,10 @@ function Player(){
 			this.money -= this.autoclickercost;
 			this.totalMoneySpent += this.autoclickercost;
 			this.autoclickers++;
-			document.getElementById("autoclickerscounter").innerHTML = "Autoclickers: " + this.autoclickers;
+			document.getElementById("autoclickerscounter").innerHTML = "Generators: " + this.autoclickers;
 			this.autoclickercost += Math.round(this.autoclickercost * 0.10);
 			this.updateShop();
-			document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+this.name+" just bought an autoclicker!&#013;");
+			document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+this.name+" just bought a generator!&#013;");
 			document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
 			this.updateStats();
 		}
@@ -610,7 +610,7 @@ function Player(){
 	/* Update Shop Buttons */
 	/*---------------------*/
 	this.updateShop = function() {
-		document.getElementById("Shop_btn_autoclicker").innerHTML = "Buy Autoclicker ($" + Math.round(this.autoclickercost) + ")";
+	document.getElementById("Shop_btn_autoclicker").innerHTML = "Buy Generator ($" + Math.round(this.autoclickercost) + ")";
 		document.getElementById("Shop_btn_clickpower").innerHTML = "Upgrade Click Power ($" + this.clickpowercost + ")";
 	}
 
