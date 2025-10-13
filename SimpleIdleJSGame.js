@@ -96,39 +96,40 @@ function LoadGame() {
 					return res.json();
 			})
 			.then(data => {
-					const c = data.character;
-					Swal.fire({
-							title: 'Are you sure?',
-							text: `Loading game: Money: $${Math.round(data.gold)} - Autoclickers: ${c.autoclickers}`,
-							type: 'warning',
-							showCancelButton: true,
-							confirmButtonColor: '#3085d6',
-							cancelButtonColor: '#d33',
-							confirmButtonText: 'Yes, load it!'
-					}).then((result) => {
-							if (result.value) {
-									Swal.fire('Loaded!', 'Your game has been loaded from the database.', 'success');
-									player.name = c.name;
-									player.money = Number(data.gold) || 0;
-									player.terra = Number(c.terra) || 0;
-									player.fogo = Number(c.fogo) || 0;
-									player.agua = Number(c.agua) || 0;
-									player.ar = Number(c.ar) || 0;
-									player.gameStarted = c.gameStarted;
-									player.clickpower = Number(c.clickpower) || 0;
-									player.totalClicksEver = Number(c.totalClicksEver) || 0;
-									player.autoclickers = Number(c.autoclickers) || 0;
-									player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
-									player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
-									// UI updates
-									player.updateStats();
-									document.getElementById("namediv").innerHTML = "Player: " + c.name;
-									document.getElementById("autoclickerscounter").textContent = `Autoclickers: ${c.autoclickers}`;
-									document.getElementById("moneycounter").textContent = `$${Number(data.gold) || 0}`;
-									document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game from database.&#013;");
-									document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
-							}
-					});
+				const c = data.character;
+				const moneyFromDB = Math.round((Number(c.totalMoneyEver) || 0) - (Number(c.totalMoneySpent) || 0));
+				Swal.fire({
+					title: 'Are you sure?',
+					text: `Loading game: Money: $${moneyFromDB} - Autoclickers: ${c.autoclickers}`,
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, load it!'
+				}).then((result) => {
+					if (result.value) {
+						Swal.fire('Loaded!', 'Your game has been loaded from the database.', 'success');
+						player.name = c.name;
+						player.money = moneyFromDB;
+						player.terra = Number(c.terra) || 0;
+						player.fogo = Number(c.fogo) || 0;
+						player.agua = Number(c.agua) || 0;
+						player.ar = Number(c.ar) || 0;
+						player.gameStarted = c.gameStarted;
+						player.clickpower = Number(c.clickpower) || 0;
+						player.totalClicksEver = Number(c.totalClicksEver) || 0;
+						player.autoclickers = Number(c.autoclickers) || 0;
+						player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
+						player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
+						// UI updates
+						player.updateStats();
+						document.getElementById("namediv").innerHTML = "Player: " + c.name;
+						document.getElementById("autoclickerscounter").textContent = `Autoclickers: ${c.autoclickers}`;
+						document.getElementById("moneycounter").textContent = `$${moneyFromDB}`;
+						document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game from database.&#013;");
+						document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+					}
+				});
 			})
 			.catch(err => {
 					Swal.fire('Error', 'Could not load character from database.<br>' + err.message, 'error');
