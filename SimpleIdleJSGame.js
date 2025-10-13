@@ -6,7 +6,7 @@ console.log("SimpleIdleJSGame.js has been linked!");
 	console.log("SimpleIdleJSGame.js has been linked!");
 	// ShowDateTime and clockinterval removed (no clockcontainer in UI)
 var player = new Player();
-var autoclickertimer = setInterval("player.AutoClickerMakeMoney()", 100);
+var generatortimer = setInterval("player.AutoClickerMakeMoney()", 100);
 var updateAchievementsTimer = setInterval("player.updateAchievements()", 1000);
 var updateBoutiqueTimer = setInterval("player.updateBoutique()", 2000);
 var karuGemsGenerationTimer = setInterval("player.generateKaruGem()", 600000);
@@ -47,7 +47,7 @@ function SaveGame() {
 						gameStarted: player.gameStarted,
 						clickpower: player.clickpower,
 						totalClicksEver: player.totalClicksEver,
-						autoclickers: player.autoclickers,
+						generators: player.autoclickers,
 						totalMoneyEver: player.totalMoneyEver,
 						totalMoneySpent: player.totalMoneySpent
 					})
@@ -100,7 +100,7 @@ function LoadGame() {
 				const moneyFromDB = Math.round((Number(c.totalMoneyEver) || 0) - (Number(c.totalMoneySpent) || 0));
 				Swal.fire({
 					title: 'Are you sure?',
-					text: `Loading game: Money: $${moneyFromDB} - Autoclickers: ${c.autoclickers}`,
+				text: `Loading game: Money: $${moneyFromDB} - Generators: ${c.autoclickers}`,
 					type: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
@@ -118,13 +118,13 @@ function LoadGame() {
 						player.gameStarted = c.gameStarted;
 						player.clickpower = Number(c.clickpower) || 0;
 						player.totalClicksEver = Number(c.totalClicksEver) || 0;
-						player.autoclickers = Number(c.autoclickers) || 0;
+					player.generators = Number(c.autoclickers) || 0;
 						player.totalMoneyEver = Number(c.totalMoneyEver) || 0;
 						player.totalMoneySpent = Number(c.totalMoneySpent) || 0;
 						// UI updates
 						player.updateStats();
 						document.getElementById("namediv").innerHTML = "Player: " + c.name;
-						document.getElementById("autoclickerscounter").textContent = `Autoclickers: ${c.autoclickers}`;
+					document.getElementById("autoclickerscounter").textContent = `Generators: ${c.autoclickers}`;
 						document.getElementById("moneycounter").textContent = `$${moneyFromDB}`;
 						document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game from database.&#013;");
 						document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;

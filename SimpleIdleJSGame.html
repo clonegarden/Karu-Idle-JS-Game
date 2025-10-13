@@ -43,7 +43,7 @@
 					
 				</div>
 				<div class="col-3 text-right" style="min-width:180px;">
-					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Gerenciar Usuário</button>
+					<button id="btnUserManage" class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#UserManageModal">Player Settings</button>
 					<button id="btnLogoff" class="btn btn-danger btn-sm">Log off</button>
 				</div>
 			</div>
@@ -52,8 +52,7 @@
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="UserManageModalLabel">Gerenciamento do Usuário</h5>
-								<h5 class="modal-title" id="UserManageModalLabel">User Management</h5>
+								<h5 class="modal-title" id="UserManageModalLabel">Player Settings</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -62,7 +61,10 @@
 								<p><b>User:</b> <span id="userManageUsername">(loading...)</span></p>
 								<hr>
 								<button class="btn btn-secondary btn-sm" onclick="alert('Password change feature coming soon!')">Change password</button>
-								<!-- Adicione mais opções de gerenciamento aqui -->
+								<div class="mt-3">
+									<button type="button" id="savebutton" class="btn btn-danger btn-block" onclick="SaveGame()">Save Game</button>
+									<button type="button" id="loadbutton" class="btn btn-secondary btn-block" onclick="LoadGame()">Load Game</button>
+								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -117,7 +119,7 @@
 									<tr><td>Game started</td><td id="stat_gamestarted">Loading...</td></tr>
 									<tr><td>Click power</td><td id="stat_clickpower">Loading...</td></tr>
 									<tr><td>Total clicks</td><td id="stat_totalclicks">Loading...</td></tr>
-									<tr><td>Autoclickers</td><td id="stat_autoclickers">Loading...</td></tr>
+									<tr><td>Generators</td><td id="stat_autoclickers">Loading...</td></tr>
 									<tr><td>Total money</td><td id="stat_totalmoney">Loading...</td></tr>
 									<tr><td>Money spent</td><td id="stat_moneyspent">Loading...</td></tr>
 								</tbody>
@@ -136,11 +138,11 @@
 								<img class="img-fluid" src="assets/achievements/achievement_1big.png" alt="Achievement1" id="achievement_1" onmouseover="player.showAchievement1()" onmouseleave="player.hideAchievement1()" style="filter: grayscale();">
 								<div id="achievement_1txt" style="display: none"></div>
 
-								<!-- Achievement 2: Got 50 Autoclickers! -->
+								<!-- Achievement 2: Got 50 Generators! -->
 								<img class="img-fluid" src="assets/achievements/achievement_2big.png" alt="Achievement2" id="achievement_2" onmouseover="player.showAchievement2()" onmouseleave="player.hideAchievement2()" style="filter: grayscale();">
 								<div id="achievement_2txt" style="display: none"></div>
 
-								<!-- Achievement 3: Got 100 Autoclickers! -->
+								<!-- Achievement 3: Got 100 Generators! -->
 								<img class="img-fluid" src="assets/achievements/achievement_3big.png" alt="Achievement3" id="achievement_3" onmouseover="player.showAchievement3()" onmouseleave="player.hideAchievement3()" style="filter: grayscale();">
 								<div id="achievement_3txt" style="display: none"></div>
 
@@ -167,11 +169,30 @@
 				<div class="col-6">
 					<div id="maincol" style="transition: height 0.3s, min-height 0.3s;">
 						
-						<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0;"></div>
+						<div id="maincol" style="transition: height 0.3s, min-height 0.3s; margin-bottom: 0; position: relative; overflow: hidden; width: 320px; height: 320px; background: #222; border-radius: 12px; box-shadow: 0 0 12px #a84cff;">
+							<img id="mapTile" src="assets/tile0.jpg" alt="Map Tile" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+							<!-- Arrow controls -->
+							<button id="arrowUp" style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▲</button>
+							<button id="arrowDown" style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▼</button>
+							<button id="arrowLeft" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">◀</button>
+							<button id="arrowRight" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #a84cff; color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5em; z-index: 2;">▶</button>
+						</div>
 						<div id="divbotones">
 							<button type="button" id="btn_makemoney" class="btn btn-primary btn-block" onclick="player.MakeMoney()" style="margin: 0px 0px 10px 0px;">Make Money! ($1)</button>
-							<button type="button" id="savebutton" class="btn btn-danger" onclick="SaveGame()">Save Game</button>
-							<button type="button" id="loadbutton" class="btn btn-secondary" onclick="LoadGame()">Load Game</button>
+							<!-- Save and Load buttons moved to Player Settings modal -->
+<script>
+// Simple map navigation logic
+let mapX = 0, mapY = 0;
+function updateMapTile() {
+	// For demo, just use tile0.jpg always. Replace with logic for different tiles if needed.
+	document.getElementById('mapTile').src = `assets/tile0.jpg`;
+}
+document.getElementById('arrowUp').onclick = function() { mapY--; updateMapTile(); };
+document.getElementById('arrowDown').onclick = function() { mapY++; updateMapTile(); };
+document.getElementById('arrowLeft').onclick = function() { mapX--; updateMapTile(); };
+document.getElementById('arrowRight').onclick = function() { mapX++; updateMapTile(); };
+updateMapTile();
+</script>
 						</div>
 						<br>
 					</div>
@@ -231,7 +252,7 @@
 							<br>
 							<div class="row">
 								<div class="col" id="shopbuttons">
-									<button id="Shop_btn_autoclicker" class="btn btn-info btn-block btn-sm" onclick="player.AddAutoClicker()">Buy Autoclicker ($10)</button>
+									<button id="Shop_btn_autoclicker" class="btn btn-info btn-block btn-sm" onclick="player.AddAutoClicker()">Buy Generator ($10)</button>
 									<button id="Shop_btn_clickpower" class="btn btn-info btn-block btn-sm" onclick="player.increaseClickPower()">Upgrade Click Power ($100)</button>
 									<button id="Shop_btn_newavatar" class="btn btn-info btn-block btn-sm" onclick="player.unlockNewAvatar()">Get New Avatar ($5000)</button>
 									<button id="Shop_btn_boutique" class="btn btn-secondary btn-block btn-sm" onclick="player.openBoutiqueModal()">Avatar Boutique</button>
@@ -349,7 +370,7 @@
 		      						<td id="skill_description_0">
 			      						Karu's Sugar Rush <br>
 			      						<small>
-			      							&nbsp&nbspAutoclicker speed x2
+											&nbsp&nbspGenerator speed x2
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
@@ -535,7 +556,7 @@
 			      						 Satisfaction <br>
 			      						<small>
 			      							By FranciscoForteVGM <br><br>	
-			      							"Chill, let the Autoclickers do the work"
+											"Chill, let the Generators do the work"
 			      						</small>
 		      						</td>
 		      						<td style="text-align: right">
@@ -671,10 +692,10 @@
 				player.money = Number(data.gold) || 0;
 				moneycounter.textContent = `$${Number(data.gold) || 0}`;
 			}
-			// Update autoclickers
+			// Update generators
 			const autoclickerscounter = document.getElementById('autoclickerscounter');
 			if (autoclickerscounter) {
-				autoclickerscounter.textContent = `Autoclickers: ${Number(c.autoclickers) || 0}`;
+				autoclickerscounter.textContent = `Generators: ${Number(c.autoclickers) || 0}`;
 			}
 			// Update gems
 			const karugemscounter = document.getElementById('karugemscounter');
