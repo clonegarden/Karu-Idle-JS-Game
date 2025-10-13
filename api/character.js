@@ -24,11 +24,13 @@ export default async (req, res) => {
       res.status(404).json({ error: 'Character not found' });
       return;
     }
-    // Busca gold do usuário
-    const userResult = await pool.query('SELECT gold FROM users WHERE id = $1 LIMIT 1', [userId]);
+    // Busca gold e created_at do usuário
+    const userResult = await pool.query('SELECT gold, created_at FROM users WHERE id = $1 LIMIT 1', [userId]);
     let gold = 0;
+    let createdAt = null;
     if (userResult.rows.length > 0) {
       gold = userResult.rows[0].gold;
+      createdAt = userResult.rows[0].created_at;
     }
     // Map DB fields to frontend expected names
     const char = charResult.rows[0];
@@ -40,6 +42,7 @@ export default async (req, res) => {
         agua: char.agua,
         ar: char.ar,
         gameStarted: char.game_started,
+        createdAt,
         clickpower: char.click_power,
         totalClicksEver: char.total_clicks_ever,
         autoclickers: char.autoclickers,

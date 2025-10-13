@@ -115,7 +115,16 @@ function LoadGame() {
 						player.fogo = Number(c.fogo) || 0;
 						player.agua = Number(c.agua) || 0;
 						player.ar = Number(c.ar) || 0;
-						player.gameStarted = c.gameStarted;
+						// Format createdAt as mm/dd/yyyy
+						if (c.createdAt) {
+							const dateObj = new Date(c.createdAt);
+							const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+							const dd = String(dateObj.getDate()).padStart(2, '0');
+							const yyyy = dateObj.getFullYear();
+							player.gameStarted = `${mm}/${dd}/${yyyy}`;
+						} else {
+							player.gameStarted = c.gameStarted;
+						}
 						player.clickpower = Number(c.clickpower) || 0;
 						player.totalClicksEver = Number(c.totalClicksEver) || 0;
 					player.generators = Number(c.autoclickers) || 0;
