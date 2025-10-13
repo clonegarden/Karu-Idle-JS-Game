@@ -23,7 +23,23 @@
 				</div>
 				<div class="col">
 					
-						<h3>Your money:<h4 id="moneycounter"></h4><p id="autoclickerscounter">Autoclickers: 0</p></h3>
+						<div class="d-flex align-items-center" style="font-size: 1.2rem; gap: 18px;">
+							<span style="display: flex; align-items: center; gap: 6px;">
+								<!-- Coin SVG -->
+								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><circle cx="11" cy="11" r="10" fill="#ffe066" stroke="#a84cff" stroke-width="2"/><text x="11" y="16" text-anchor="middle" font-size="12" fill="#a84cff" font-family="monospace">$</text></svg>
+								<span id="moneycounter">$0</span>
+							</span>
+							<span style="display: flex; align-items: center; gap: 6px;">
+								<!-- Mouse SVG -->
+								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><rect x="6" y="4" width="10" height="14" rx="5" fill="#eee" stroke="#a84cff" stroke-width="2"/><rect x="10" y="4" width="2" height="5" fill="#a84cff"/></svg>
+								<span id="autoclickerscounter">Autoclickers: 0</span>
+							</span>
+							<span style="display: flex; align-items: center; gap: 6px;">
+								<!-- Gem SVG -->
+								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><polygon points="11,2 20,8 16,20 6,20 2,8" fill="#a8e6cf" stroke="#a84cff" stroke-width="2"/></svg>
+								<span id="karugemscounter">Gems: 0</span>
+							</span>
+						</div>
 					
 				</div>
 				<div class="col-3 text-right" style="min-width:180px;">
@@ -651,7 +667,17 @@
 			if (stat_moneyspent) stat_moneyspent.textContent = Number(c.totalMoneySpent) || 0;
 			if (moneycounter && typeof data.gold !== 'undefined') {
 				player.money = Number(data.gold) || 0;
-				moneycounter.innerHTML = `$${Number(data.gold) || 0}`;
+				moneycounter.textContent = `$${Number(data.gold) || 0}`;
+			}
+			// Update autoclickers
+			const autoclickerscounter = document.getElementById('autoclickerscounter');
+			if (autoclickerscounter) {
+				autoclickerscounter.textContent = `Autoclickers: ${Number(c.autoclickers) || 0}`;
+			}
+			// Update gems
+			const karugemscounter = document.getElementById('karugemscounter');
+			if (karugemscounter) {
+				karugemscounter.textContent = `Gems: ${Number(player.karugems) || 0}`;
 			}
 		    // Assign backend stat values to player object for real-time updates
 			player.terra = Number(c.terra) || 0;
