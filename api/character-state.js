@@ -1,3 +1,4 @@
+
 import dotenv from 'dotenv';
 import pkg from 'pg';
 import jwt from 'jsonwebtoken';
@@ -18,7 +19,7 @@ export default async (req, res) => {
   try {
     const token = auth.split(' ')[1];
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const character_id = payload.character_id || payload.id;
+    const user_id = payload.id;
     let body = req.body;
     if (typeof body === 'string') {
       body = JSON.parse(body);
@@ -34,7 +35,20 @@ export default async (req, res) => {
       shopProgression,
       mapPosition
     } = body;
-    if (!character_id) return res.status(400).json({ error: 'Missing character_id' });
+    if (!user_id) return res.status(400).json({ error: 'Missing user_id' });
+
+    // Fetch character's primary key (id) from characters table
+    let character_id;
+    try {
+      const charRes = await pool.query('SELECT id FROM characters WHERE user_id = $1 LIMIT 1', [user_id]);
+      if (charRes.rows.length === 0) {
+        return res.status(404).json({ error: 'Character not found for user' });
+      }
+      character_id = charRes.rows[0].id;
+    } catch (fetchErr) {
+      return res.status(500).json({ error: 'Failed to fetch character_id', details: fetchErr.message });
+    }
+
     try {
       await pool.query(
         `INSERT INTO character_state (
