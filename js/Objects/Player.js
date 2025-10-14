@@ -462,26 +462,31 @@ function Player(){
 	/* Update Boutique */
 	/*-----------------*/
 	this.updateBoutique = function() {
+		// Always update button to current cost
+		if (document.getElementById("Shop_btn_newavatar")) {
+			if (this.unlockedAvatar[4]) {
+				document.getElementById("Shop_btn_newavatar").innerHTML = "Got all avatars!";
+				document.getElementById("Shop_btn_newavatar").disabled = true;
+			} else {
+				document.getElementById("Shop_btn_newavatar").innerHTML = "Get New Avatar ($" + this.newavatarcost + ")";
+				document.getElementById("Shop_btn_newavatar").disabled = false;
+			}
+		}
 		if (this.unlockedAvatar[1]) {
 			document.getElementById("boutique_unlocked_1").setAttribute("src", "assets/avatar/avatar1.png");
 			document.getElementById("skill_description_1").innerHTML = "Kazzy's Hacker attack <br><small>&nbsp&nbspTotal Autoclickers x3</small>";
-			document.getElementById("Shop_btn_newavatar").innerHTML = "Get New Avatar ($" + this.newavatarcost + ")";
 		}
 		if (this.unlockedAvatar[2]) {
 			document.getElementById("boutique_unlocked_2").setAttribute("src", "assets/avatar/avatar2.png");
 			document.getElementById("skill_description_2").innerHTML = "Ricardo's Sexy Dance <br><small>&nbsp&nbspClick power x5</small>";
-			document.getElementById("Shop_btn_newavatar").innerHTML = "Get New Avatar ($" + this.newavatarcost + ")";
 		}
 		if (this.unlockedAvatar[3]) {
 			document.getElementById("boutique_unlocked_3").setAttribute("src", "assets/avatar/avatar3.png");
 			document.getElementById("skill_description_3").innerHTML = "Spinal's Ultra Combo <br><small>&nbsp&nbsp+15 Autoclickers, +15 Click power</small>";
-			document.getElementById("Shop_btn_newavatar").innerHTML = "Get New Avatar ($" + this.newavatarcost + ")";
 		}
 		if (this.unlockedAvatar[4]) {
 			document.getElementById("boutique_unlocked_4").setAttribute("src", "assets/avatar/avatar4.png");
 			document.getElementById("skill_description_4").innerHTML = "Robin's Ultimate Meow <br><small>&nbsp&nbspWalks on the keyboard</small>";
-			document.getElementById("Shop_btn_newavatar").innerHTML = "Got all avatars!";
-			document.getElementById("Shop_btn_newavatar").disabled = true;
 		}
 
 		//These activate and deactivate skill purchase buttons

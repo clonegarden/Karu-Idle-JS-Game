@@ -211,10 +211,6 @@ function LoadGame() {
 						if (typeof state_data.clickpowercost !== 'undefined') player.clickpowercost = Number(state_data.clickpowercost);
 						if (typeof state_data.newavatarcost !== 'undefined') {
 							player.newavatarcost = Number(state_data.newavatarcost);
-							// Update Get New Avatar button immediately
-							if (document.getElementById("Shop_btn_newavatar")) {
-								document.getElementById("Shop_btn_newavatar").innerHTML = `Get New Avatar ($${player.newavatarcost})`;
-							}
 						}
 						player.updateShop();
 						// UI updates
