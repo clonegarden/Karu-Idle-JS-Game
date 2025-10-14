@@ -1,3 +1,4 @@
+
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import pool from './db.js';
@@ -17,7 +18,20 @@ export default async (req, res) => {
   const token = auth.replace('Bearer ', '');
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const character_id = payload.character_id || payload.id;
+    const user_id = payload.id;
+
+    // Fetch character's primary key (id) from characters table
+    let character_id;
+    try {
+      const charRes = await pool.query('SELECT id FROM characters WHERE user_id = $1 LIMIT 1', [user_id]);
+      if (charRes.rows.length === 0) {
+        return res.status(404).json({ error: 'Character not found for user' });
+      }
+      character_id = charRes.rows[0].id;
+    } catch (fetchErr) {
+      return res.status(500).json({ error: 'Failed to fetch character_id', details: fetchErr.message });
+    }
+
     // Fetch extended state for character
     const stateResult = await pool.query('SELECT * FROM character_state WHERE character_id = $1 LIMIT 1', [character_id]);
     if (stateResult.rows.length === 0) {
