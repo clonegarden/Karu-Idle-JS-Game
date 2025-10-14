@@ -37,7 +37,7 @@
 							<span style="display: flex; align-items: center; gap: 6px; font-family: monospace; text-shadow: -1px 0px 2px #222222, 0px 1px 2px #222222, 1px 0px 2px #222222, 0px -1px 2px #222222;">
 								<!-- Gem SVG -->
 								<svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;"><polygon points="11,2 20,8 16,20 6,20 2,8" fill="#a8e6cf" stroke="#a84cff" stroke-width="2"/></svg>
-								<span id="karugemscounter">Gems: 0</span>
+								<span id="karugemscounter">Karu Gems: 0</span>
 							</span>
 						</div>
 					
@@ -705,10 +705,26 @@ updateMapTilePosition();
 			if (autoclickerscounter) {
 				autoclickerscounter.textContent = `Generators: ${Number(c.autoclickers) || 0}`;
 			}
-			// Update gems
+			// Update Karu Gems from backend (character_state)
 			const karugemscounter = document.getElementById('karugemscounter');
-			if (karugemscounter) {
-				karugemscounter.textContent = `Gems: ${Number(player.karugems) || 0}`;
+			try {
+				const stateRes = await fetch('/api/character-state-get', {
+					headers: { 'Authorization': 'Bearer ' + token }
+				});
+				if (stateRes.ok) {
+					const stateData = await stateRes.json();
+					if (stateData.character_state && typeof stateData.character_state.karugems !== 'undefined') {
+						player.karugems = Number(stateData.character_state.karugems) || 0;
+						if (karugemscounter) {
+							karugemscounter.textContent = `Karu Gems: ${player.karugems}`;
+						}
+					}
+				}
+			} catch (e) {
+				console.warn('Could not load Karu Gems from backend:', e);
+				if (karugemscounter) {
+					karugemscounter.textContent = `Karu Gems: ${Number(player.karugems) || 0}`;
+				}
 			}
 		    // Assign backend stat values to player object for real-time updates
 			player.terra = Number(c.terra) || 0;

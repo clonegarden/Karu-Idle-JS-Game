@@ -83,7 +83,10 @@ function SaveGame() {
 							unlockedMusic: player.unlockedMusic,
 							karugems: player.karugems,
 							shopProgression: player.shopProgression || {},
-							mapPosition: player.mapPosition || {}
+							mapPosition: player.mapPosition || {},
+							autoclickercost: player.autoclickercost,
+							clickpowercost: player.clickpowercost,
+							newavatarcost: player.newavatarcost
 						})
 					})
 				])
@@ -173,6 +176,11 @@ function LoadGame() {
 						player.karugems = s.karugems;
 						player.shopProgression = JSON.parse(s.shopProgression);
 						player.mapPosition = JSON.parse(s.mapPosition);
+						// Restore shop prices if present
+						if (typeof s.autoclickercost !== 'undefined') player.autoclickercost = Number(s.autoclickercost);
+						if (typeof s.clickpowercost !== 'undefined') player.clickpowercost = Number(s.clickpowercost);
+						if (typeof s.newavatarcost !== 'undefined') player.newavatarcost = Number(s.newavatarcost);
+						player.updateShop();
 						// UI updates
 						player.updateStats();
 						document.getElementById("namediv").innerHTML = "Player: " + c.name;
