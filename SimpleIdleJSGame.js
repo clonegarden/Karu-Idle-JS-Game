@@ -48,6 +48,13 @@ function SaveGame() {
 			if (result.value) {
 				// Save all game state to backend (basic stats and extended state)
 				const token = localStorage.getItem('token');
+				// Prepare state_data for extended state
+				const state_data = {
+					autoclickercost: player.autoclickercost,
+					clickpowercost: player.clickpowercost,
+					newavatarcost: player.newavatarcost,
+					money: player.money
+				};
 				Promise.all([
 					fetch('/api/character-update', {
 						method: 'POST',
@@ -84,9 +91,7 @@ function SaveGame() {
 							karugems: player.karugems,
 							shopProgression: player.shopProgression || {},
 							mapPosition: player.mapPosition || {},
-							autoclickercost: player.autoclickercost,
-							clickpowercost: player.clickpowercost,
-							newavatarcost: player.newavatarcost
+							state_data: state_data
 						})
 					})
 				])
@@ -135,7 +140,13 @@ function LoadGame() {
 			.then(([data, stateData]) => {
 				const c = data.character;
 				const s = stateData.character_state;
-				const moneyFromDB = Math.round((Number(c.totalMoneyEver) || 0) - (Number(c.totalMoneySpent) || 0));
+				let moneyFromDB = Math.round((Number(c.totalMoneyEver) || 0) - (Number(c.totalMoneySpent) || 0));
+				// If state_data exists, restore shop prices and money from it
+				let state_data = {};
+				if (s && s.state_data) {
+					state_data = typeof s.state_data === 'string' ? JSON.parse(s.state_data) : s.state_data;
+					if (typeof state_data.money !== 'undefined') moneyFromDB = Number(state_data.money);
+				}
 				Swal.fire({
 					title: 'Are you sure?',
 					text: `Loading game: Money: $${moneyFromDB} - Generators: ${c.autoclickers}`,
@@ -176,10 +187,10 @@ function LoadGame() {
 						player.karugems = s.karugems;
 						player.shopProgression = JSON.parse(s.shopProgression);
 						player.mapPosition = JSON.parse(s.mapPosition);
-						// Restore shop prices if present
-						if (typeof s.autoclickercost !== 'undefined') player.autoclickercost = Number(s.autoclickercost);
-						if (typeof s.clickpowercost !== 'undefined') player.clickpowercost = Number(s.clickpowercost);
-						if (typeof s.newavatarcost !== 'undefined') player.newavatarcost = Number(s.newavatarcost);
+						// Restore shop prices from state_data if present
+						if (typeof state_data.autoclickercost !== 'undefined') player.autoclickercost = Number(state_data.autoclickercost);
+						if (typeof state_data.clickpowercost !== 'undefined') player.clickpowercost = Number(state_data.clickpowercost);
+						if (typeof state_data.newavatarcost !== 'undefined') player.newavatarcost = Number(state_data.newavatarcost);
 						player.updateShop();
 						// UI updates
 						player.updateStats();
