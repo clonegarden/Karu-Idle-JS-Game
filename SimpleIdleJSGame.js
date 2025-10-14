@@ -159,6 +159,9 @@ function LoadGame() {
 					if (document.getElementById("Shop_btn_clickpower")) {
 						document.getElementById("Shop_btn_clickpower").innerHTML = `Upgrade Click Power ($${player.clickpowercost})`;
 					}
+					if (document.getElementById("Shop_btn_newavatar")) {
+						document.getElementById("Shop_btn_newavatar").innerHTML = `Get New Avatar ($${player.newavatarcost})`;
+					}
 					if (document.getElementById("btn_makemoney")) {
 						document.getElementById("btn_makemoney").innerHTML = `Make Money! ($${player.clickpower})`;
 					}
