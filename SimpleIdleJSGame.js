@@ -151,6 +151,13 @@ function LoadGame() {
 					// Restore buy generator button cost and make money button value if present
 					if (typeof state_data.buyGeneratorCost !== 'undefined') player.autoclickercost = Number(state_data.buyGeneratorCost);
 					if (typeof state_data.makeMoneyButtonValue !== 'undefined') player.clickpower = Number(state_data.makeMoneyButtonValue);
+					// Update shop button and Make Money button UI immediately
+					if (document.getElementById("Shop_btn_autoclicker")) {
+						document.getElementById("Shop_btn_autoclicker").innerHTML = `Buy Generator ($${Math.round(player.autoclickercost)})`;
+					}
+					if (document.getElementById("btn_makemoney")) {
+						document.getElementById("btn_makemoney").innerHTML = `Make Money! ($${player.clickpower})`;
+					}
 				}
 				Swal.fire({
 					title: 'Are you sure?',
