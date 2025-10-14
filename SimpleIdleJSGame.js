@@ -213,6 +213,13 @@ function LoadGame() {
 							player.newavatarcost = Number(state_data.newavatarcost);
 						}
 						player.updateShop();
+						// Force update Get New Avatar button to correct cost after all UI updates
+						if (document.getElementById("Shop_btn_newavatar")) {
+							document.getElementById("Shop_btn_newavatar").innerHTML = player.unlockedAvatar[4]
+								? "Got all avatars!"
+								: `Get New Avatar ($${player.newavatarcost})`;
+							document.getElementById("Shop_btn_newavatar").disabled = !!player.unlockedAvatar[4];
+						}
 						// UI updates
 						player.updateStats();
 						document.getElementById("namediv").innerHTML = "Player: " + c.name;
