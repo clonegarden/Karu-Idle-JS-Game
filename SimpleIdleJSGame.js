@@ -186,6 +186,11 @@ function LoadGame() {
 						document.getElementById("namediv").innerHTML = "Player: " + c.name;
 						document.getElementById("autoclickerscounter").textContent = `Generators: ${c.autoclickers}`;
 						document.getElementById("moneycounter").textContent = `$${moneyFromDB}`;
+						// Update Karu Gems header
+						const karugemscounter = document.getElementById("karugemscounter");
+						if (karugemscounter) {
+							karugemscounter.textContent = `Karu Gems: ${player.karugems}`;
+						}
 						document.getElementById("console").innerHTML = document.getElementById("console").innerHTML.concat(">>"+player.name+" loaded the game from database.&#013;");
 						document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
 					}
