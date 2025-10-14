@@ -48,7 +48,8 @@ export default async (req, res) => {
         unlockedMusic: state.unlocked_music,
         karugems: state.karugems,
         shopProgression: state.shop_progression,
-        mapPosition: state.map_position
+        mapPosition: state.map_position,
+        state_data: state.state_data // shop prices and money
       }
     });
   } catch (err) {

@@ -33,7 +33,8 @@ export default async (req, res) => {
       unlockedMusic,
       karugems,
       shopProgression,
-      mapPosition
+      mapPosition,
+      state_data // shop prices and money
     } = body;
     if (!user_id) return res.status(400).json({ error: 'Missing user_id' });
 
@@ -60,8 +61,9 @@ export default async (req, res) => {
           unlocked_music,
           karugems,
           shop_progression,
-          map_position
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+          map_position,
+          state_data
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
         ON CONFLICT (character_id) DO UPDATE SET
           unlocked_avatar = $2,
           unlocked_achievement = $3,
@@ -70,7 +72,8 @@ export default async (req, res) => {
           unlocked_music = $6,
           karugems = $7,
           shop_progression = $8,
-          map_position = $9
+          map_position = $9,
+          state_data = $10
         `,
         [
           character_id,
@@ -81,7 +84,8 @@ export default async (req, res) => {
           JSON.stringify(unlockedMusic),
           karugems,
           JSON.stringify(shopProgression),
-          JSON.stringify(mapPosition)
+          JSON.stringify(mapPosition),
+          JSON.stringify(state_data || {})
         ]
       );
       res.status(200).json({ success: true });
