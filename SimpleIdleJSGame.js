@@ -148,12 +148,16 @@ function LoadGame() {
 				if (s && s.state_data) {
 					state_data = typeof s.state_data === 'string' ? JSON.parse(s.state_data) : s.state_data;
 					if (typeof state_data.money !== 'undefined') moneyFromDB = Number(state_data.money);
-					// Restore buy generator button cost and make money button value if present
+					// Restore buy generator button cost, click power, and click power cost if present
 					if (typeof state_data.buyGeneratorCost !== 'undefined') player.autoclickercost = Number(state_data.buyGeneratorCost);
 					if (typeof state_data.makeMoneyButtonValue !== 'undefined') player.clickpower = Number(state_data.makeMoneyButtonValue);
-					// Update shop button and Make Money button UI immediately
+					if (typeof state_data.clickpowercost !== 'undefined') player.clickpowercost = Number(state_data.clickpowercost);
+					// Update shop buttons and Make Money button UI immediately
 					if (document.getElementById("Shop_btn_autoclicker")) {
 						document.getElementById("Shop_btn_autoclicker").innerHTML = `Buy Generator ($${Math.round(player.autoclickercost)})`;
+					}
+					if (document.getElementById("Shop_btn_clickpower")) {
+						document.getElementById("Shop_btn_clickpower").innerHTML = `Upgrade Click Power ($${player.clickpowercost})`;
 					}
 					if (document.getElementById("btn_makemoney")) {
 						document.getElementById("btn_makemoney").innerHTML = `Make Money! ($${player.clickpower})`;
