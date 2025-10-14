@@ -1,9 +1,28 @@
 /*-------------*/
 /* Main Script */
 /*-------------*/
-//This loads on init
+// Automatically load game after login
+function onLoginSuccess() {
+	// Token should already be set in localStorage by login logic
+	LoadGame();
+}
 console.log("SimpleIdleJSGame.js has been linked!");
-	console.log("SimpleIdleJSGame.js has been linked!");
+// Example: Attach to login modal or login event
+document.addEventListener('DOMContentLoaded', function() {
+	// Replace with your actual login success event or callback
+	// For example, if you use a login form with id 'loginForm':
+	var loginForm = document.getElementById('loginForm');
+	if (loginForm) {
+		loginForm.addEventListener('submit', function(e) {
+			// Wait for login to complete and token to be set
+			setTimeout(function() {
+				if (localStorage.getItem('token')) {
+					onLoginSuccess();
+				}
+			}, 500); // Adjust delay as needed
+		});
+	}
+});
 	// ShowDateTime and clockinterval removed (no clockcontainer in UI)
 var player = new Player();
 var generatortimer = setInterval("player.AutoClickerMakeMoney()", 100);
