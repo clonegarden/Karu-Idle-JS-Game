@@ -25,10 +25,40 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 	// ShowDateTime and clockinterval removed (no clockcontainer in UI)
 var player = new Player();
-var generatortimer = setInterval("player.AutoClickerMakeMoney()", 100);
-var updateAchievementsTimer = setInterval("player.updateAchievements()", 1000);
-var updateBoutiqueTimer = setInterval("player.updateBoutique()", 2000);
-var karuGemsGenerationTimer = setInterval("player.generateKaruGem()", 600000);
+var generatortimer = setInterval(function(){ player.AutoClickerMakeMoney(); }, 100);
+var updateAchievementsTimer = setInterval(function(){ player.updateAchievements(); }, 1000);
+var updateBoutiqueTimer = setInterval(function(){ player.updateBoutique(); }, 2000);
+var karuGemsGenerationTimer = setInterval(function(){ player.generateKaruGem(); }, 600000);
+
+// Centralized UI sync for shop buttons — use this after loading DB values
+function updateShopButtons() {
+	try {
+		const btnAuto = document.getElementById('Shop_btn_autoclicker');
+		const btnClick = document.getElementById('Shop_btn_clickpower');
+		const btnAvatar = document.getElementById('Shop_btn_newavatar');
+		const btnMake = document.getElementById('btn_makemoney');
+
+		if (btnAuto && typeof player.autoclickercost !== 'undefined') {
+			btnAuto.innerHTML = `Buy Generator ($${Math.round(player.autoclickercost)})`;
+		}
+		if (btnClick && typeof player.clickpowercost !== 'undefined') {
+			btnClick.innerHTML = `Upgrade Click Power ($${player.clickpowercost})`;
+		}
+		if (btnAvatar && typeof player.newavatarcost !== 'undefined') {
+			btnAvatar.innerHTML = player.unlockedAvatar && player.unlockedAvatar[4]
+				? 'Got all avatars!'
+				: `Get New Avatar ($${player.newavatarcost})`;
+			btnAvatar.disabled = !!(player.unlockedAvatar && player.unlockedAvatar[4]);
+		}
+		if (btnMake) {
+			// prefer explicit makeMoneyButtonValue if present
+			const makeVal = typeof player.makeMoneyValue !== 'undefined' ? player.makeMoneyValue : player.clickpower;
+			btnMake.innerHTML = `Make Money! ($${makeVal})`;
+		}
+	} catch (e) {
+		console.warn('updateShopButtons error', e);
+	}
+}
 
 /*-----------*/
 /* Save Game */
@@ -213,6 +243,10 @@ function LoadGame() {
 							player.newavatarcost = Number(state_data.newavatarcost);
 						}
 						player.updateShop();
+						// Ensure UI uses DB-loaded values and avoid interval race
+						updateShopButtons();
+						clearInterval(updateBoutiqueTimer);
+						updateBoutiqueTimer = setInterval(function(){ player.updateBoutique(); }, 2000);
 						// Force update Get New Avatar button to correct cost after all UI updates
 						if (document.getElementById("Shop_btn_newavatar")) {
 							document.getElementById("Shop_btn_newavatar").innerHTML = player.unlockedAvatar[4]
