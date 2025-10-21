@@ -183,17 +183,22 @@ function LoadGame() {
 					if (typeof state_data.makeMoneyButtonValue !== 'undefined') player.clickpower = Number(state_data.makeMoneyButtonValue);
 					if (typeof state_data.clickpowercost !== 'undefined') player.clickpowercost = Number(state_data.clickpowercost);
 					// Update shop buttons and Make Money button UI immediately
+					// Use DB values when available (state_data may contain the authoritative prices)
+					const effectiveAutoclickerCost = typeof state_data.autoclickercost !== 'undefined' ? Number(state_data.autoclickercost) : player.autoclickercost;
+					const effectiveClickPowerCost = typeof state_data.clickpowercost !== 'undefined' ? Number(state_data.clickpowercost) : player.clickpowercost;
+					const effectiveNewAvatarCost = typeof state_data.newavatarcost !== 'undefined' ? Number(state_data.newavatarcost) : player.newavatarcost;
+					const effectiveMakeMoneyVal = typeof state_data.makeMoneyButtonValue !== 'undefined' ? Number(state_data.makeMoneyButtonValue) : player.clickpower;
 					if (document.getElementById("Shop_btn_autoclicker")) {
-						document.getElementById("Shop_btn_autoclicker").innerHTML = `Buy Generator ($${Math.round(player.autoclickercost)})`;
+						document.getElementById("Shop_btn_autoclicker").innerHTML = `Buy Generator ($${Math.round(effectiveAutoclickerCost)})`;
 					}
 					if (document.getElementById("Shop_btn_clickpower")) {
-						document.getElementById("Shop_btn_clickpower").innerHTML = `Upgrade Click Power ($${player.clickpowercost})`;
+						document.getElementById("Shop_btn_clickpower").innerHTML = `Upgrade Click Power ($${effectiveClickPowerCost})`;
 					}
 					if (document.getElementById("Shop_btn_newavatar")) {
-						document.getElementById("Shop_btn_newavatar").innerHTML = `Get New Avatar ($${player.newavatarcost})`;
+						document.getElementById("Shop_btn_newavatar").innerHTML = `Get New Avatar ($${effectiveNewAvatarCost})`;
 					}
 					if (document.getElementById("btn_makemoney")) {
-						document.getElementById("btn_makemoney").innerHTML = `Make Money! ($${player.clickpower})`;
+						document.getElementById("btn_makemoney").innerHTML = `Make Money! ($${effectiveMakeMoneyVal})`;
 					}
 				}
 				Swal.fire({
