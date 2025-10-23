@@ -73,13 +73,13 @@ function Player(){
 		switch (this.activeTheme) {
 			case 0:
 				document.getElementById("favicon").setAttribute("href",
-					"assets/favicon.png");
+					"assets/favicon.ico");
 				document.getElementById("body").setAttribute("style",
 					"background-image: url(\"assets/bg.png\"); background-repeat: no-repeat; background-size: 100%; background-position: 0px 90px; background-color: #000000; color: rgba(255,255,255,1); text-align: center;");
 				document.getElementById("header").setAttribute("style",
 					"background-image: linear-gradient(-60deg, white, rgba(180, 80, 170, 1)); padding: 0px;");
 				document.getElementById("headerfavicon").setAttribute("src",
-					"assets/favicon.png");
+					"assets/favicon.ico");
 				document.getElementById("navbar").setAttribute("style",
 					"height: 35px; background-image: linear-gradient(#eeeeee, white, #cccccc);");
 				document.getElementById("clockcontainer").setAttribute("style",
@@ -112,13 +112,13 @@ function Player(){
 
 			case 1:
 				document.getElementById("favicon").setAttribute("href",
-					"assets/favicon2.png");
+					"assets/favicon2.ico");
 				document.getElementById("body").setAttribute("style",
 					"background-image: url(\"assets/bg2.png\"); background-repeat: no-repeat; background-size: 100%; background-position: 0px 90px; background-color: #000000; color: rgba(255,255,255,1); text-align: center;");
 				document.getElementById("header").setAttribute("style",
 					"background-image: linear-gradient(-60deg, #333333, rgba(0, 0, 0, 1)); padding: 0px;");
 				document.getElementById("headerfavicon").setAttribute("src",
-					"assets/favicon2.png");
+					"assets/favicon2.ico");
 				document.getElementById("navbar").setAttribute("style",
 					"height: 35px; background-image: linear-gradient(#333333, black, black, #222222);");
 				document.getElementById("clockcontainer").setAttribute("style",
