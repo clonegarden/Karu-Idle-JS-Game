@@ -51,6 +51,15 @@ export default async (req, res) => {
     }
 
     try {
+      // Defensive: if state_data contains money as float, truncate to integer
+      let safe_state_data = state_data || {};
+      try {
+        if (typeof safe_state_data.money !== 'undefined') {
+          safe_state_data.money = Math.floor(Number(safe_state_data.money));
+        }
+      } catch (e) {
+        // ignore and keep original
+      }
       await pool.query(
         `INSERT INTO character_state (
           character_id,
@@ -85,7 +94,7 @@ export default async (req, res) => {
           karugems,
           JSON.stringify(shopProgression),
           JSON.stringify(mapPosition),
-          JSON.stringify(state_data || {})
+          JSON.stringify(safe_state_data || {})
         ]
       );
       res.status(200).json({ success: true });

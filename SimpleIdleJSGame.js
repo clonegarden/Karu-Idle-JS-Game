@@ -58,9 +58,9 @@ function SaveGame() {
 					autoclickercost: player.autoclickercost,
 					clickpowercost: player.clickpowercost,
 					newavatarcost: player.newavatarcost,
-					money: player.money,
+					money: Math.floor(player.money), // store money as integer
 					buyGeneratorCost: player.autoclickercost, // for clarity
-					makeMoneyButtonValue: player.clickpower // store clickpower as the value for Make Money button
+					makeMoneyButtonValue: Math.floor(player.clickpower) // store clickpower as integer
 				};
 				Promise.all([
 					fetch('/api/character-update', {
