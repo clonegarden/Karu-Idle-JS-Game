@@ -23,6 +23,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 });
+
+// If we land on this page and a token is already present (redirect from login),
+// use the same LoadGame() function the "Load Game" button uses.
+document.addEventListener('DOMContentLoaded', function() {
+	const token = localStorage.getItem('token');
+	if (token) {
+		// small delay to allow the DOM to finish rendering UI elements
+		setTimeout(() => {
+			try { LoadGame(); } catch (e) { console.warn('Auto LoadGame failed', e); }
+		}, 150);
+	}
+});
 	// ShowDateTime and clockinterval removed (no clockcontainer in UI)
 var player = new Player();
 var generatortimer = setInterval(function(){ player.AutoClickerMakeMoney(); }, 100);
