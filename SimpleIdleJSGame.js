@@ -182,6 +182,8 @@ function LoadGame() {
 					if (typeof state_data.buyGeneratorCost !== 'undefined') player.autoclickercost = Number(state_data.buyGeneratorCost);
 					if (typeof state_data.makeMoneyButtonValue !== 'undefined') player.clickpower = Number(state_data.makeMoneyButtonValue);
 					if (typeof state_data.clickpowercost !== 'undefined') player.clickpowercost = Number(state_data.clickpowercost);
+					// Ensure new avatar cost is applied to player immediately so intervals/readers use DB value
+					if (typeof state_data.newavatarcost !== 'undefined') player.newavatarcost = Number(state_data.newavatarcost);
 					// Update shop buttons and Make Money button UI immediately
 					// Use DB values when available (state_data may contain the authoritative prices)
 					const effectiveAutoclickerCost = typeof state_data.autoclickercost !== 'undefined' ? Number(state_data.autoclickercost) : player.autoclickercost;
