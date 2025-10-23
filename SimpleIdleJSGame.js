@@ -32,32 +32,7 @@ var karuGemsGenerationTimer = setInterval(function(){ player.generateKaruGem(); 
 
 // Centralized UI sync for shop buttons — use this after loading DB values
 function updateShopButtons() {
-	try {
-		const btnAuto = document.getElementById('Shop_btn_autoclicker');
-		const btnClick = document.getElementById('Shop_btn_clickpower');
-		const btnAvatar = document.getElementById('Shop_btn_newavatar');
-		const btnMake = document.getElementById('btn_makemoney');
-
-		if (btnAuto && typeof player.autoclickercost !== 'undefined') {
-			btnAuto.innerHTML = `Buy Generator ($${Math.round(player.autoclickercost)})`;
-		}
-		if (btnClick && typeof player.clickpowercost !== 'undefined') {
-			btnClick.innerHTML = `Upgrade Click Power ($${player.clickpowercost})`;
-		}
-		if (btnAvatar && typeof player.newavatarcost !== 'undefined') {
-			btnAvatar.innerHTML = player.unlockedAvatar && player.unlockedAvatar[4]
-				? 'Got all avatars!'
-				: `Get New Avatar ($${player.newavatarcost})`;
-			btnAvatar.disabled = !!(player.unlockedAvatar && player.unlockedAvatar[4]);
-		}
-		if (btnMake) {
-			// prefer explicit makeMoneyButtonValue if present
-			const makeVal = typeof player.makeMoneyValue !== 'undefined' ? player.makeMoneyValue : player.clickpower;
-			btnMake.innerHTML = `Make Money! ($${makeVal})`;
-		}
-	} catch (e) {
-		console.warn('updateShopButtons error', e);
-	}
+	if (player && typeof player.updateShopButtons === 'function') player.updateShopButtons();
 }
 
 /*-----------*/

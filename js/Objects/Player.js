@@ -1,6 +1,9 @@
 /*---------------*/
 /* Player Object */
 /*---------------*/
+// Default constants
+const DEFAULT_NEWAVATAR_COST = 5000;
+
 //This object simbolizes the user, it has money, autoclickers and autoclicker cost variables.
 //These variables are modified when loading a savefile.
 function Player(){
@@ -17,7 +20,7 @@ function Player(){
 	this.totalMoneySpent = 0;
 	this.clickpower = 1;
 	this.clickpowercost = 100;
-	this.newavatarcost = 5000;
+	this.newavatarcost = DEFAULT_NEWAVATAR_COST;
 	this.karugems = 0;
 	//Karugems are obtained in several ways:
 	//1.Every 10 minutes
@@ -345,16 +348,9 @@ function Player(){
 	/* Next Avatar */
 	/*-------------*/
 	this.NextAvatar = function() {
+		// Sync UI from model
+		this.updateShopButtons();
 		switch (this.activeavatar) {
-			case 1:
-				if (this.unlockedAvatar[1] == true) {
-					this.activeavatar = 2;
-				}
-				else {
-					this.activeavatar = 1;
-				}
-				break;
-
 			case 2:
 				if (this.unlockedAvatar[2] == true) {
 					this.activeavatar = 3;
@@ -461,6 +457,38 @@ function Player(){
 	/*-----------------*/
 	/* Update Boutique */
 	/*-----------------*/
+
+	/*--------------------------------*/
+	/* Centralized Shop Buttons update */
+	/* Keep UI logic close to the model */
+	this.updateShopButtons = function() {
+		try {
+			const btnAuto = document.getElementById('Shop_btn_autoclicker');
+			const btnClick = document.getElementById('Shop_btn_clickpower');
+			const btnAvatar = document.getElementById('Shop_btn_newavatar');
+			const btnMake = document.getElementById('btn_makemoney');
+
+			if (btnAuto && typeof this.autoclickercost !== 'undefined') {
+				btnAuto.innerHTML = `Buy Generator ($${Math.round(this.autoclickercost)})`;
+			}
+			if (btnClick && typeof this.clickpowercost !== 'undefined') {
+				btnClick.innerHTML = `Upgrade Click Power ($${this.clickpowercost})`;
+			}
+			if (btnAvatar && typeof this.newavatarcost !== 'undefined') {
+				btnAvatar.innerHTML = this.unlockedAvatar && this.unlockedAvatar[4]
+					? 'Got all avatars!'
+					: `Get New Avatar ($${this.newavatarcost})`;
+				btnAvatar.disabled = !!(this.unlockedAvatar && this.unlockedAvatar[4]);
+			}
+			if (btnMake) {
+				const makeVal = typeof this.makeMoneyValue !== 'undefined' ? this.makeMoneyValue : this.clickpower;
+				btnMake.innerHTML = `Make Money! ($${makeVal})`;
+			}
+		} catch (e) {
+			console.warn('player.updateShopButtons error', e);
+		}
+	}
+
 	this.updateBoutique = function() {
 		// Always update button to current cost
 		if (document.getElementById("Shop_btn_newavatar")) {
